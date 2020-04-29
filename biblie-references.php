@@ -38,7 +38,7 @@ if ( !defined('ABSPATH') ) {
 	die( 'Sorry, you are not allowed to access this page directly.' ); 
 }
 
-define('BG_BIBREFS_VERSION', '3.16.1');
+define('BG_BIBREFS_VERSION', '0.3');
 // define('BG_BIBREFS_SOURCE_URL', "http://plugins.svn.wordpress.org/bg-biblie-references/bible/");
 // define('BG_BIBREFS_SOURCE_URL', "https://shofar-media.in.ua/bible/");
 define('GITHUB_BOOKS_REPOSITORY', "webdevs-pro/bible-books"); // github user/repository
