@@ -257,10 +257,10 @@ function reading_off_checked() {
 <p><?php printf( __( 'Version', 'bg_bibrefs' ).' <b>'.get_plugin_version().'</b>' ); ?></p>
 
 <h2 class="nav-tab-wrapper">
-<a href="?page=biblie-references%2Fbg_bibrefs.php&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'bg_bibrefs') ?></a>
-	<a href="?page=biblie-references%2Fbg_bibrefs.php&tab=permissions" class="nav-tab <?php echo $active_tab == 'permissions' ? 'nav-tab-active' : ''; ?>"><?php _e('Permissions', 'bg_bibrefs') ?></a>
-	<a href="?page=biblie-references%2Fbg_bibrefs.php&tab=additional" class="nav-tab <?php echo $active_tab == 'additional' ? 'nav-tab-active' : ''; ?>"><?php _e('Additional options', 'bg_bibrefs') ?></a>
-	<a href="?page=biblie-references%2Fbg_bibrefs.php&tab=bible" class="nav-tab <?php echo $active_tab == 'bible' ? 'nav-tab-active' : ''; ?>"><?php _e('Bible books', 'bg_bibrefs') ?></a>
+	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'bg_bibrefs') ?></a>
+	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=permissions" class="nav-tab <?php echo $active_tab == 'permissions' ? 'nav-tab-active' : ''; ?>"><?php _e('Permissions', 'bg_bibrefs') ?></a>
+	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=additional" class="nav-tab <?php echo $active_tab == 'additional' ? 'nav-tab-active' : ''; ?>"><?php _e('Additional options', 'bg_bibrefs') ?></a>
+	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=bible" class="nav-tab <?php echo $active_tab == 'bible' ? 'nav-tab-active' : ''; ?>"><?php _e('Bible books', 'bg_bibrefs') ?></a>
 </h2>
 
 <!-- Загрузка книг Библии -->
