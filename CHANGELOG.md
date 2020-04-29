@@ -1,4 +1,4 @@
-Bible References
+bible-references
 =========
 
 1.0.1
