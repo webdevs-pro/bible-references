@@ -1,4 +1,4 @@
-AI Blocks
+Bible References
 =========
 
 0.3
