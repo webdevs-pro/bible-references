@@ -533,7 +533,7 @@ function bg_bibrefs_get_options () {
 
 // PLUGIN UPDATES
 if (is_admin()) {
-   require 'admin/plugin-update-checker/plugin-update-checker.php';
+   require 'includes/plugin-update-checker/plugin-update-checker.php';
    $ai_blocks_updater = Puc_v4_Factory::buildUpdateChecker(
       'https://github.com/webdevs-pro/biblie-references',
       __FILE__,
