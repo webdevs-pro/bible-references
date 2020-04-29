@@ -535,8 +535,8 @@ function bg_bibrefs_get_options () {
 if (is_admin()) {
    require 'includes/plugin-update-checker/plugin-update-checker.php';
    $ai_blocks_updater = Puc_v4_Factory::buildUpdateChecker(
-      'https://github.com/webdevs-pro/biblie-references',
+      'https://github.com/webdevs-pro/bible-references',
       __FILE__,
-      'ai-blocks'
+      'bible-references'
    );
 }
