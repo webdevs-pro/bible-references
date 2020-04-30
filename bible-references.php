@@ -45,12 +45,8 @@ define('GITHUB_BOOKS_REPOSITORY', "webdevs-pro/bible-books"); // github user/rep
 define('BIBREFS_DIR_NAME', plugin_basename(__FILE__));
 
 
-
-
-
-
-
 $upload_dir = wp_upload_dir();
+define('BG_BIBREFS_UPLOAD_DIR', $upload_dir['basedir']);
 
 $bg_bibrefs_start_time = microtime(true);
 
@@ -95,6 +91,7 @@ if ( defined('ABSPATH') && defined('WPINC') ) {
 
 // Регистрируем крючок для добавления меню администратора
 	add_action('admin_menu', 'bg_bibrefs_add_pages');
+	
 // Регистрируем крючок на удаление плагина
 	if (function_exists('register_uninstall_hook')) {
 		register_uninstall_hook(__FILE__, 'bg_bibrefs_deinstall');
@@ -155,8 +152,17 @@ add_action( 'plugins_loaded', 'bg_bibrefs_upload_folders' );
 function bg_bibrefs_addFolder($book) {
 
 	$source_url = 'https://github.com/' . GITHUB_BOOKS_REPOSITORY . '/raw/master/' . $book;
+	error_log( print_r($source_url, true) );
+
 	$local_url = dirname(__FILE__ ).'/'.$book;
-	$subfolder = dirname(__FILE__ ).'/bible/'.basename($book, ".zip").'/';
+	error_log( print_r($local_url, true) );
+
+	// $subfolder = dirname(__FILE__ ).'/bible/'.basename($book, ".zip").'/';
+	$subfolder = BG_BIBREFS_UPLOAD_DIR.'/bible/'.basename($book, ".zip").'/';
+	error_log( print_r($subfolder, true) );
+
+	
+
 	if (!file_exists($local_url)) {
 		if (copy ( $source_url, $local_url )) {
 			$zip = new ZipArchive; 
@@ -173,7 +179,7 @@ function bg_bibrefs_addFolder($book) {
  * Удалить папку с Библией с сайта
  **************************************************************************/
 function bg_bibrefs_removeFolder($book) {
-	$path = dirname( __FILE__ ).'/bible/';
+	$path = BG_BIBREFS_UPLOAD_DIR.'/bible/';
 	$dir=$path.basename($book, ".zip"); 
 	if ($objs = glob($dir."/*")) {
 		foreach($objs as $obj) {
@@ -189,7 +195,7 @@ function bg_bibrefs_removeFolder($book) {
  **************************************************************************/
 function bg_bibrefs_getFolders() {
 	$folders = array();
-	$path = dirname( __FILE__ ).'/bible/';
+	$path = BG_BIBREFS_UPLOAD_DIR.'/bible/';
 	$id = 0;
 	if ($handle = @opendir($path)) {
 		while (false !== ($dir = readdir($handle))) { 
@@ -224,7 +230,9 @@ function set_bible_lang() {
 		$bible_lang = $bible_lang_posts_val;									// то язык из поста (4)
 	
 	$file_books = dirname( __FILE__ ).'/bible/'.$bible_lang.'/books.php';		// Если для установеннного языка отсутствует каталог с Библией,
-	if (!file_exists($file_books)) {
+	$file_books_uploaded = BG_BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';	
+	if (!file_exists($file_books) && 
+		!file_exists($file_books_uploaded)) {
 			$bible_lang = 'ru';	 				// то по умолчанию русский язык (5)
 			$file_books = dirname( __FILE__ ).'/bible/'.$bible_lang.'/books.php';		// Если для русского языка отсутствует каталог с Библией,
 			if (!file_exists($file_books)) $bible_lang = '';							// то язык не установлен
@@ -242,6 +250,8 @@ function include_books($lang) {
 	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
 	
 	$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
+	if (!file_exists($file_books)) // Если нет в папке плагина, то ищем в /wp-content/uploads
+		$file_books = BG_BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
 	if (!file_exists($file_books)) {
 		$lang = set_bible_lang(); // Если язык задан неверно, устанавливаем язык системы
 		$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
