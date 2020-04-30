@@ -1,6 +1,9 @@
 bible-references
 =========
 
+1.2
+- updater test
+
 1.1
 - updater test
 
