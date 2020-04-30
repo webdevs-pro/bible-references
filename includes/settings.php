@@ -4,7 +4,7 @@
     отображает содержимое страницы для подменю Bible References
 *******************************************************************************************/
 function bg_bibrefs_options_page() {
-
+// http://azbyka.ru/biblia/?Lk.4:25-5:13,6:1-13&crgli&rus&num=cr
 
 	$active_tab = 'settings';
 	if( isset( $_GET[ 'tab' ] ) ) $active_tab = $_GET[ 'tab' ];
@@ -19,12 +19,11 @@ function bg_bibrefs_options_page() {
    //  $i_lang_name = 'bg_bibrefs_i_lang';					// Иврит
    //  $c_font_name = 'bg_bibrefs_c_font';					// Шрифт для церковно-славянского текста
 
-	$bg_bibrefs_page = 'bg_bibrefs_page';			// Ссылка на предварительно созданную страницу для вывода текста Библии
+	$bg_bibrefs_page = 'bg_bibrefs_page';				// Ссылка на предварительно созданную страницу для вывода текста Библии
 
-	$bg_verses_lang = 'bg_bibrefs_verses_lang';		// Язык стихов из Библии во всплывающей подсказке
-   $bg_show_fn = 'bg_bibrefs_show_fn';					// Отображать оригинальные номера стихов
+	$bg_verses_lang = 'bg_bibrefs_verses_lang';			// Язык стихов из Библии во всплывающей подсказке
+    $bg_show_fn = 'bg_bibrefs_show_fn';					// Отображать оригинальные номера стихов
 
-   $target_window = 'bg_bibrefs_target';				// Где открыть страницу с текстом Библии
 	$bg_headers = 'bg_bibrefs_headers';					// Подсвечивать ссылки в заголовках H1-H6
 	$bg_interpret = 'bg_bibrefs_interpret';				// Включить ссылки на толкование Священного Писания
 	$bg_parallel = 'bg_bibrefs_parallel';				// Включить ссылки на паралельные места Священного Писания
@@ -32,9 +31,9 @@ function bg_bibrefs_options_page() {
 	$bg_norm_refs = 'bg_bibrefs_norm_refs';				// Преобразовывать ссылки к нормализованному виду
 	$bg_verses_name = 'bg_bibrefs_show_verses';			// Отображать стихи из Библии во всплывающей подсказке
 
-   $bg_perm_dot = 'bg_bibrefs_dot';					// Разрешить отсутствие точки после обозначения книги
-   $bg_perm_romeh = 'bg_bibrefs_romeh';				// Разрешить Римские цифры
-   $bg_perm_sepc = 'bg_bibrefs_sepc';					// Разрешить запятую, как разделитеть между главой и стихами (западная традиция)
+    $bg_perm_dot = 'bg_bibrefs_dot';					// Разрешить отсутствие точки после обозначения книги
+    $bg_perm_romeh = 'bg_bibrefs_romeh';				// Разрешить Римские цифры
+    $bg_perm_sepc = 'bg_bibrefs_sepc';					// Разрешить запятую, как разделитеть между главой и стихами (западная традиция)
 	$bg_strip_space = 'bg_bibrefs_strip_space';			// Удалять пробелы в обозначениях книг, начинающихся с цифр
 	$bg_perm_exceptions = 'bg_bibrefs_exceptions';		// Словосочетания, не являющиеся ссылками на Библию
 	
@@ -47,19 +46,19 @@ function bg_bibrefs_options_page() {
 	
 	$bg_bibrefs_maxtime = "bg_bibrefs_maxtime";			// Максимальное время работы скрипта
 
-   $bg_bibrefs_ajaxurl = "bg_bibrefs_ajaxurl";			// Внешний AJAX Proxy
+    $bg_bibrefs_ajaxurl = "bg_bibrefs_ajaxurl";			// Внешний AJAX Proxy
 	$bg_content = 'bg_bibrefs_content';					// Контейнер, внутри которого будут отображаться подсказки
 	$links_class = 'bg_bibrefs_class';					// CSS класс для ссылок на Библию
 	$bg_refs_file = 'bg_bibrefs_refs_file';				// Пользовательский файл цитат из Библии
 	
 	$bg_bibrefs_debug_name = 'bg_bibrefs_debug';		// Включить запись в лог
 	
-   $hidden_field_name = 'bg_bibrefs_submit_hidden';	// Скрытое поле для проверки обновления информацции в форме
+    $hidden_field_name = 'bg_bibrefs_submit_hidden';	// Скрытое поле для проверки обновления информацции в форме
 	
 	bg_bibrefs_options_ini (); 			// Параметры по умолчанию
 	
     // Читаем существующие значения опций из базы данных
-   //  $bg_bibrefs_site_val = get_option( $bg_bibrefs_site );
+    $bg_bibrefs_site_val = get_option( $bg_bibrefs_site );
 	
    //  $c_lang_val = get_option( $c_lang_name );
    //  $r_lang_val = get_option( $r_lang_name );
@@ -73,7 +72,6 @@ function bg_bibrefs_options_page() {
     $bg_verses_lang_val = get_option( $bg_verses_lang );
     $bg_show_fn_val = get_option( $bg_show_fn );
 
-    $target_val = get_option( $target_window );
     $bg_headers_val = get_option( $bg_headers );
     $bg_interpret_val = get_option( $bg_interpret );
     $bg_parallel_val = get_option( $bg_parallel );
@@ -111,6 +109,24 @@ function bg_bibrefs_options_page() {
 		$bg_bibrefs_site_val = sanitize_text_field(( isset( $_POST[$bg_bibrefs_site] ) && $_POST[$bg_bibrefs_site] ) ? $_POST[$bg_bibrefs_site] : '') ;
 		update_option( $bg_bibrefs_site, $bg_bibrefs_site_val );
 
+		// $c_lang_val = sanitize_text_field(( isset( $_POST[$c_lang_name] ) && $_POST[$c_lang_name] ) ? $_POST[$c_lang_name] : '') ;
+		// update_option( $c_lang_name, $c_lang_val );
+
+		// $r_lang_val = sanitize_text_field(( isset( $_POST[$r_lang_name] ) && $_POST[$r_lang_name] ) ? $_POST[$r_lang_name] : '') ;
+		// update_option( $r_lang_name, $r_lang_val );
+
+		// $g_lang_val = sanitize_text_field(( isset( $_POST[$g_lang_name] ) && $_POST[$g_lang_name] ) ? $_POST[$g_lang_name] : '') ;
+		// update_option( $g_lang_name, $g_lang_val );
+
+		// $l_lang_val = sanitize_text_field(( isset( $_POST[$l_lang_name] ) && $_POST[$l_lang_name] ) ? $_POST[$l_lang_name] : '') ;
+		// update_option( $l_lang_name, $l_lang_val );
+
+		// $i_lang_val = sanitize_text_field(( isset( $_POST[$i_lang_name] ) && $_POST[$i_lang_name] ) ? $_POST[$i_lang_name] : '') ;
+		// update_option( $i_lang_name, $i_lang_val );
+
+		// $font_val = sanitize_text_field(( isset( $_POST[$c_font_name] ) && $_POST[$c_font_name] ) ? $_POST[$c_font_name] : '') ;
+		// update_option( $c_font_name, $font_val );
+
 		$bg_bibrefs_page_val = esc_url(( isset( $_POST[$bg_bibrefs_page] ) && $_POST[$bg_bibrefs_page] ) ? $_POST[$bg_bibrefs_page] : '') ;
 		update_option( $bg_bibrefs_page, $bg_bibrefs_page_val );
 
@@ -120,8 +136,6 @@ function bg_bibrefs_options_page() {
 		$bg_show_fn_val = sanitize_text_field(( isset( $_POST[$bg_show_fn] ) && $_POST[$bg_show_fn] ) ? $_POST[$bg_show_fn] : '') ;
 		update_option( $bg_show_fn, $bg_show_fn_val );
 
-		$target_val = sanitize_text_field(( isset( $_POST[$target_window] ) && $_POST[$target_window] ) ? $_POST[$target_window] : '') ;
-		update_option( $target_window, $target_val );
 
 		$bg_headers_val = sanitize_text_field(( isset( $_POST[$bg_headers] ) && $_POST[$bg_headers] ) ? $_POST[$bg_headers] : '') ;
 		update_option( $bg_headers, $bg_headers_val );
@@ -192,27 +206,27 @@ function bg_bibrefs_options_page() {
 ?>
 <!--  форма опций -->
 <script>
-function c_lang_checked() {
-	azbyka_font = document.getElementById('bg_bibrefs_azbyka_font');
-	if (document.getElementById('c_lang').checked == true) azbyka_font.style.display = '';
-	else azbyka_font.style.display = 'none';
-}
-function bg_bibrefs_site_checked() {
-	elRadio = document.getElementsByName('<?php echo $bg_bibrefs_site ?>');
-	azbyka_lang = document.getElementById('bg_bibrefs_azbyka_lang');
-	azbyka_font = document.getElementById('bg_bibrefs_azbyka_font');
-	permalink = document.getElementById('bg_bibrefs_permalink');
-	if (elRadio[0].checked) {
-		azbyka_lang.style.display = '';
-		c_lang_checked();
-	}
-	else {
-		azbyka_lang.style.display = 'none';
-		azbyka_font.style.display = 'none';
-	}
-	if (elRadio[1].checked) permalink.style.display = '';
-	else permalink.style.display = 'none';
-}
+// function c_lang_checked() {
+// 	azbyka_font = document.getElementById('bg_bibrefs_azbyka_font');
+// 	if (document.getElementById('c_lang').checked == true) azbyka_font.style.display = '';
+// 	else azbyka_font.style.display = 'none';
+// }
+// function bg_bibrefs_site_checked() {
+// 	elRadio = document.getElementsByName('<?php echo $bg_bibrefs_site ?>');
+// 	azbyka_lang = document.getElementById('bg_bibrefs_azbyka_lang');
+// 	azbyka_font = document.getElementById('bg_bibrefs_azbyka_font');
+// 	permalink = document.getElementById('bg_bibrefs_permalink');
+// 	if (elRadio[0].checked) {
+// 		azbyka_lang.style.display = '';
+// 		c_lang_checked();
+// 	}
+// 	else {
+// 		azbyka_lang.style.display = 'none';
+// 		azbyka_font.style.display = 'none';
+// 	}
+// 	if (elRadio[1].checked) permalink.style.display = '';
+// 	else permalink.style.display = 'none';
+// }
 function bg_verses_checked() {
 	if (document.getElementById('bg_verses').checked == true) {
 		document.getElementById('bg_bibrefs_pload').disabled = false;
@@ -257,7 +271,7 @@ function reading_off_checked() {
 <p><?php printf( __( 'Version', 'bg_bibrefs' ).' <b>'.get_plugin_version().'</b>' ); ?></p>
 
 <h2 class="nav-tab-wrapper">
-	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'bg_bibrefs') ?></a>
+<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'bg_bibrefs') ?></a>
 	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=permissions" class="nav-tab <?php echo $active_tab == 'permissions' ? 'nav-tab-active' : ''; ?>"><?php _e('Permissions', 'bg_bibrefs') ?></a>
 	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=additional" class="nav-tab <?php echo $active_tab == 'additional' ? 'nav-tab-active' : ''; ?>"><?php _e('Additional options', 'bg_bibrefs') ?></a>
 	<a href="?page=<?php echo BIBREFS_DIR_NAME; ?>&tab=bible" class="nav-tab <?php echo $active_tab == 'bible' ? 'nav-tab-active' : ''; ?>"><?php _e('Bible books', 'bg_bibrefs') ?></a>
@@ -291,175 +305,184 @@ function reading_off_checked() {
 <!-- Форма настроек -->
 <form name="form1" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 
-<!--  Основные параметры -->
+	<!--  Основные параметры -->
+	<!--  Главные настройки -->
+	<table class="form-table" style="display: <?php echo $active_tab == 'settings' ? '' : 'none'; ?>;">
+		<tr valign="top">
+			<th scope="row"><?php _e('Language of references and tooltips', 'bg_bibrefs' ); ?></th>
+			<td>
+				<select id="bg_verses_lang" name="<?php echo $bg_verses_lang ?>"> 
+					<option <?php if($bg_verses_lang_val=="") echo "selected" ?> value=""><?php _e('Default', 'bg_bibrefs' ); ?></option>
+					<?php
+						$path = BIBREFS_UPLOAD_DIR.'/bible/';
+						if ($handle = opendir($path)) {
+							while (false !== ($dir = readdir($handle))) { 
+								if (is_dir ( $path.$dir ) && $dir != '.' && $dir != '..') {
+									include ($path.$dir.'/books.php');
+									echo "<option ";
+									if($bg_verses_lang_val==$dir) echo "selected";
+									echo " value=".$dir.">".$bg_bibrefs_lang_name."</option>\n";
+								}
+							}
+							closedir($handle); 
+						}
+					?>
+				</select>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row"><?php _e('Show original verse numbers', 'bg_bibrefs' ); ?></th>
+			<td>
+				<input type="checkbox" id="bg_show_fn" name="<?php echo $bg_show_fn ?>" <?php if($bg_show_fn_val=="on") echo "checked" ?>  value="on"> <?php _e('<br><i>(Show the original verse numbers in parentheses after the verse numbers of Russian Synodal Translation in the tooltips and quotes.<br>Verses marked with asterisk * are absent in the original translation. * - always visible!)</i>', 'bg_bibrefs' ); ?> <br />
+			</td>
+		</tr>
 
 
-<!--  Допустимые отклонения от стандарта ссылок -->
-<table class="form-table" style="display: <?php echo $active_tab == 'permissions' ? '' : 'none'; ?>;">
-<tr valign="top">
-<th scope="row"><?php _e('Allow no dot after the book title', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_perm_dot" name="<?php echo $bg_perm_dot ?>" <?php if($bg_perm_dot_val=="on") echo "checked" ?>  value="on"> <br />
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Allow Roman numerals', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_perm_romeh" name="<?php echo $bg_perm_romeh ?>" <?php if($bg_perm_romeh_val=="on") echo "checked" ?>  value="on"> <br />
-</td></tr>
+		<tr valign="top">
+		<th scope="row"><?php _e('Highlight references in the headers H1...H6', 'bg_bibrefs' ); ?></th>
+		<td>
+		<input type="checkbox" id="bg_headers" name="<?php echo $bg_headers ?>" <?php if($bg_headers_val=="on") echo "checked" ?>  value="on"> <br />
+		</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Allow the comma as divider between chapter and verses (western tradition)', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_perm_sepc" name="<?php echo $bg_perm_sepc ?>" <?php if($bg_perm_sepc_val=="on") echo "checked" ?>  value="on"> <br />
-<?php _e('The plugin highlights references in both eastern and western notation. There is collision what is mean the reference containing two numbers devided by a comma (for example, Ps. 4,6). In the Western tradition, this is reference to Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and 6. You can choose how to interpret such links by specifying it in the settings.', 'bg_bibrefs' ); ?>
-</td></tr>
+		<tr valign="top">
+		<th scope="row"><?php _e('Show Bible verses in popup', 'bg_bibrefs' ); ?></th>
+		<td>
+		<input type="checkbox" id="bg_verses" name="<?php echo $bg_verses_name ?>" <?php if($bg_verses_val=="on") echo "checked" ?>  value="on" onclick='bg_verses_checked();'> <?php _e('<br><i>(If this option is disabled or data are not received from the server,<br>popup showing the Bible book title, chapter number and verse numbers)</i>', 'bg_bibrefs' ); ?> <br />
+		</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Delete spaces between digit and letter in the book notation', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_strip_space" name="<?php echo $bg_strip_space ?>" <?php if($bg_strip_space_val=="on") echo "checked" ?>  value="on"> <br />
-</td></tr>
-
-<tr valign="top">
-<th scope="row"><?php _e('Convert references to the normalized form', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_norm_refs" name="<?php echo $bg_norm_refs ?>" <?php if($bg_norm_refs_val=="on") echo "checked" ?>  value="on"> <br />
-</th><td>
-</td></tr>
-
-<tr valign="top">
-<th scope="row"><?php _e('Phrases are not Bible reference', 'bg_bibrefs' ); ?></th>
-<td>
-<textarea id="bg_perm_exceptions" name="<?php echo $bg_perm_exceptions ?>" rows="10" cols="60"><?php echo get_option($bg_perm_exceptions); ?></textarea><br>
-<i><?php _e('use a semicolon or new line as delimiter', 'bg_bibrefs') ?></i>
-</td></tr>
-
-</table>
+		<tr valign="top">
+		<th scope="row"><?php _e('Preload Bible verses in tooltips', 'bg_bibrefs' ); ?></th>
+		<td>
+		<input type="checkbox" id="bg_bibrefs_pload" name="<?php echo $bg_bibrefs_pload ?>" <?php if($bg_bibrefs_pload_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_preload();'> <?php _e(' - before upload of the post (using PHP)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Requires a lot of of time to prepare and upload of the post.<br><u>Warning:</u> You can have a problem with limiting the maximum execution time for script on the server.)</i>', 'bg_bibrefs' ); ?><br /><br />
+		<input type="checkbox" id="bg_bibrefs_preq" name="<?php echo $bg_bibrefs_preq ?>" <?php if($bg_bibrefs_preq_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_prereq();'> <?php _e(' - after upload of the post (using AJAX)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Try this option on a slow server.<br><u>Warning:</u> You can have a problem with ajax-requests limiting on the server.)</i>', 'bg_bibrefs' ); ?> <br />
+		</td></tr>
+		<script>
+		bg_verses_checked();
+		bg_bibrefs_check_preload();
+		bg_bibrefs_check_prereq();
+		</script>
+	
+	</table>
 
 
-<!--  Главные настройки -->
-<table class="form-table" style="display: <?php echo $active_tab == 'settings' ? '' : 'none'; ?>;">
-<tr valign="top">
-<th scope="row"><?php _e('Language of references and tooltips', 'bg_bibrefs' ); ?></th>
-<td>
-<select id="bg_verses_lang" name="<?php echo $bg_verses_lang ?>"> 
-	<option <?php if($bg_verses_lang_val=="") echo "selected" ?> value=""><?php _e('Default', 'bg_bibrefs' ); ?></option>
-	<?php
-		$path = dirname(dirname( __FILE__ )).'/bible/';
-		if ($handle = opendir($path)) {
-			while (false !== ($dir = readdir($handle))) { 
-				if (is_dir ( $path.$dir ) && $dir != '.' && $dir != '..') {
-					include ($path.$dir.'/books.php');
-					echo "<option ";
-					if($bg_verses_lang_val==$dir) echo "selected";
-					echo " value=".$dir.">".$bg_bibrefs_lang_name."</option>\n";
-				}
-			}
-			closedir($handle); 
-		}
-	?>
-</select>
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Show original verse numbers', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_show_fn" name="<?php echo $bg_show_fn ?>" <?php if($bg_show_fn_val=="on") echo "checked" ?>  value="on"> <?php _e('<br><i>(Show the original verse numbers in parentheses after the verse numbers of Russian Synodal Translation in the tooltips and quotes.<br>Verses marked with asterisk * are absent in the original translation. * - always visible!)</i>', 'bg_bibrefs' ); ?> <br />
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Open links', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="radio" id="blank_window" name="<?php echo $target_window ?>" <?php if($target_val=="_blank") echo "checked" ?> value="_blank"> <?php _e('in new window', 'bg_bibrefs' ); ?><br />
-<input type="radio" id="self_window" name="<?php echo $target_window ?>" <?php if($target_val=="_self") echo "checked" ?> value="_self"> <?php _e('in current window', 'bg_bibrefs' ); ?><br />
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Highlight references in the headers H1...H6', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_headers" name="<?php echo $bg_headers ?>" <?php if($bg_headers_val=="on") echo "checked" ?>  value="on"> <br />
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Show Bible verses in popup', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_verses" name="<?php echo $bg_verses_name ?>" <?php if($bg_verses_val=="on") echo "checked" ?>  value="on" onclick='bg_verses_checked();'> <?php _e('<br><i>(If this option is disabled or data are not received from the server,<br>popup showing the Bible book title, chapter number and verse numbers)</i>', 'bg_bibrefs' ); ?> <br />
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Preload Bible verses in tooltips', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_bibrefs_pload" name="<?php echo $bg_bibrefs_pload ?>" <?php if($bg_bibrefs_pload_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_preload();'> <?php _e(' - before upload of the post (using PHP)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Requires a lot of of time to prepare and upload of the post.<br><u>Warning:</u> You can have a problem with limiting the maximum execution time for script on the server.)</i>', 'bg_bibrefs' ); ?><br /><br />
-<input type="checkbox" id="bg_bibrefs_preq" name="<?php echo $bg_bibrefs_preq ?>" <?php if($bg_bibrefs_preq_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_prereq();'> <?php _e(' - after upload of the post (using AJAX)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Try this option on a slow server.<br><u>Warning:</u> You can have a problem with ajax-requests limiting on the server.)</i>', 'bg_bibrefs' ); ?> <br />
-</td></tr>
-<script>
-bg_verses_checked();
-bg_bibrefs_check_preload();
-bg_bibrefs_check_prereq();
-</script>
- 
-</table>
 
-<!--  Дополнительные параметры -->
-<table class="form-table" style="display: <?php echo $active_tab == 'additional' ? '' : 'none'; ?>;">
-<tr valign="top">
-<th scope="row"><?php _e('The maximum execution time', 'bg_bibrefs') ?></th>
-<td>
-<input type="number" name="bg_bibrefs_maxtime" value="<?php echo $bg_bibrefs_maxtime_val; ?>" /> <?php _e('sec.', 'bg_bibrefs' ); ?>
-</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Method of reading files', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_fgc" name="<?php echo $bg_fgc_name ?>" <?php if($bg_fgc_val=="on") echo "checked" ?>  value="on" onclick='reading_off_checked();'> file_get_contents()<br />
-<input type="checkbox" id="bg_fopen" name="<?php echo $bg_fopen_name ?>" <?php if($bg_fopen_val=="on") echo "checked" ?>  value="on" onclick='reading_off_checked();'> fopen() - fread() - fclose()<br />
-<input type="checkbox" id="bg_curl" name="<?php echo $bg_curl_name ?>" <?php if($bg_curl_val=="on") echo "checked" ?> value="on" onclick='reading_off_checked();'> cURL<br />
-<?php _e('<i>(Plugin tries to read Bible files with marked methods in the order listed.<br>To do the reading faster, disable unnecessary methods - you need one only. <br><u>Warning:</u> Some methods may not be available on your server.)</i>', 'bg_bibrefs' ); ?> <br />
-</td></tr>
-<script>
-reading_off_checked();
-</script>
 
-<tr valign="top">
-<th scope="row"><?php _e('External AJAX Proxy', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="text" id="bg_bibrefs_ajaxurl" name="<?php echo $bg_bibrefs_ajaxurl ?>" size="60" value="<?php echo $bg_bibrefs_ajaxurl_val ?>"><br />
-<details>
-<summary><?php _e('Add into <em>functions.php</em> on this server the following PHP-code (see bellow)', "bg_bibrefs"); ?></summary>
-<?php printf ('<code>function allow_origin () {<br>&nbsp;&nbsp;&nbsp;&nbsp;header ( "Access-Control-Allow-Origin: %1$s" );<br>}<br>add_action ( "init", "allow_origin" );</code>', get_site_url()); ?>
-</details>
-</td></tr>
+	<!--  Допустимые отклонения от стандарта ссылок -->
+	<table class="form-table" style="display: <?php echo $active_tab == 'permissions' ? '' : 'none'; ?>;">
+		<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
+		<tr valign="top">
+			<th scope="row"><?php _e('Allow no dot after the book title', 'bg_bibrefs' ); ?></th>
+			<td>
+				<input type="checkbox" id="bg_perm_dot" name="<?php echo $bg_perm_dot ?>" <?php if($bg_perm_dot_val=="on") echo "checked" ?>  value="on"> <br />
+			</td>
+		</tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Container, inside which will display tooltips', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="text" id="bg_content" name="<?php echo $bg_content ?>" size="20" value="<?php echo $bg_content_val ?>"><br />
-</td></tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('Allow Roman numerals', 'bg_bibrefs' ); ?></th>
+			<td>
+				<input type="checkbox" id="bg_perm_romeh" name="<?php echo $bg_perm_romeh ?>" <?php if($bg_perm_romeh_val=="on") echo "checked" ?>  value="on"> <br />
+			</td>
+		</tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Reference links CSS class', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="text" id="links_class" name="<?php echo $links_class ?>" size="20" value="<?php echo $class_val ?>"><br />
-</td></tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('Allow the comma as divider between chapter and verses (western tradition)', 'bg_bibrefs' ); ?></th>
+			<td>
+				<input type="checkbox" id="bg_perm_sepc" name="<?php echo $bg_perm_sepc ?>" <?php if($bg_perm_sepc_val=="on") echo "checked" ?>  value="on"> <br />
+				<?php _e('The plugin highlights references in both eastern and western notation. There is collision what is mean the reference containing two numbers devided by a comma (for example, Ps. 4,6). In the Western tradition, this is reference to Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and 6. You can choose how to interpret such links by specifying it in the settings.', 'bg_bibrefs' ); ?>
+			</td>
+		</tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Custom file of Bible quotes', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="text" id="bg_refs_file" name="<?php echo $bg_refs_file ?>" size="60" value="<?php echo $bg_refs_file_val ?>"><br />
-</td></tr>
+		<tr valign="top">
+		<th scope="row"><?php _e('Delete spaces between digit and letter in the book notation', 'bg_bibrefs' ); ?></th>
+		<td>
+		<input type="checkbox" id="bg_strip_space" name="<?php echo $bg_strip_space ?>" <?php if($bg_strip_space_val=="on") echo "checked" ?>  value="on"> <br />
+		</td></tr>
 
-<tr valign="top">
-<th scope="row"><?php _e('Debug', 'bg_bibrefs' ); ?></th>
-<td>
-<input type="checkbox" id="bg_bibrefs_debug" name="<?php echo $bg_bibrefs_debug_name ?>" <?php if($bg_bibrefs_debug_val=="on") echo "checked" ?>  value="on"'> <?php _e('<br><i>(If you enable this option the debug information will written to the file "debug.log" in the plugin directory.<br>The file will be updated in 30 minutes after the last record, or the filesize exceed 2 Mb.<br><font color="red"><b>Disable this option after the end of debugging!</b></font>)</i>', 'bg_bibrefs' ); ?> <br />
-</td></tr>
+		<tr valign="top">
+		<th scope="row"><?php _e('Convert references to the normalized form', 'bg_bibrefs' ); ?></th>
+		<td>
+		<input type="checkbox" id="bg_norm_refs" name="<?php echo $bg_norm_refs ?>" <?php if($bg_norm_refs_val=="on") echo "checked" ?>  value="on"> <br />
+		</th><td>
+		</td></tr>
 
-</table>
+		<tr valign="top">
+		<th scope="row"><?php _e('Phrases are not Bible reference', 'bg_bibrefs' ); ?></th>
+		<td>
+		<textarea id="bg_perm_exceptions" name="<?php echo $bg_perm_exceptions ?>" rows="10" cols="60"><?php echo get_option($bg_perm_exceptions); ?></textarea><br>
+		<i><?php _e('use a semicolon or new line as delimiter', 'bg_bibrefs') ?></i>
+		</td></tr>
 
-<p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="<?php _e('Update Options', 'bg_bibrefs' ) ?>" />
-</p>
+	</table>
+
+
+
+	<!--  Дополнительные параметры -->
+	<table class="form-table" style="display: <?php echo $active_tab == 'additional' ? '' : 'none'; ?>;">
+	<tr valign="top">
+	<th scope="row"><?php _e('The maximum execution time', 'bg_bibrefs') ?></th>
+	<td>
+	<input type="number" name="bg_bibrefs_maxtime" value="<?php echo $bg_bibrefs_maxtime_val; ?>" /> <?php _e('sec.', 'bg_bibrefs' ); ?>
+	</td></tr>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('Method of reading files', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="checkbox" id="bg_fgc" name="<?php echo $bg_fgc_name ?>" <?php if($bg_fgc_val=="on") echo "checked" ?>  value="on" onclick='reading_off_checked();'> file_get_contents()<br />
+	<input type="checkbox" id="bg_fopen" name="<?php echo $bg_fopen_name ?>" <?php if($bg_fopen_val=="on") echo "checked" ?>  value="on" onclick='reading_off_checked();'> fopen() - fread() - fclose()<br />
+	<input type="checkbox" id="bg_curl" name="<?php echo $bg_curl_name ?>" <?php if($bg_curl_val=="on") echo "checked" ?> value="on" onclick='reading_off_checked();'> cURL<br />
+	<?php _e('<i>(Plugin tries to read Bible files with marked methods in the order listed.<br>To do the reading faster, disable unnecessary methods - you need one only. <br><u>Warning:</u> Some methods may not be available on your server.)</i>', 'bg_bibrefs' ); ?> <br />
+	</td></tr>
+	<script>
+	reading_off_checked();
+	</script>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('External AJAX Proxy', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="text" id="bg_bibrefs_ajaxurl" name="<?php echo $bg_bibrefs_ajaxurl ?>" size="60" value="<?php echo $bg_bibrefs_ajaxurl_val ?>"><br />
+	<details>
+	<summary><?php _e('Add into <em>functions.php</em> on this server the following PHP-code (see bellow)', "bg_bibrefs"); ?></summary>
+	<?php printf ('<code>function allow_origin () {<br>&nbsp;&nbsp;&nbsp;&nbsp;header ( "Access-Control-Allow-Origin: %1$s" );<br>}<br>add_action ( "init", "allow_origin" );</code>', get_site_url()); ?>
+	</details>
+	</td></tr>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('Container, inside which will display tooltips', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="text" id="bg_content" name="<?php echo $bg_content ?>" size="20" value="<?php echo $bg_content_val ?>"><br />
+	</td></tr>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('Reference links CSS class', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="text" id="links_class" name="<?php echo $links_class ?>" size="20" value="<?php echo $class_val ?>"><br />
+	</td></tr>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('Custom file of Bible quotes', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="text" id="bg_refs_file" name="<?php echo $bg_refs_file ?>" size="60" value="<?php echo $bg_refs_file_val ?>"><br />
+	</td></tr>
+
+	<tr valign="top">
+	<th scope="row"><?php _e('Debug', 'bg_bibrefs' ); ?></th>
+	<td>
+	<input type="checkbox" id="bg_bibrefs_debug" name="<?php echo $bg_bibrefs_debug_name ?>" <?php if($bg_bibrefs_debug_val=="on") echo "checked" ?>  value="on"'> <?php _e('<br><i>(If you enable this option the debug information will written to the file "debug.log" in the plugin directory.<br>The file will be updated in 30 minutes after the last record, or the filesize exceed 2 Mb.<br><font color="red"><b>Disable this option after the end of debugging!</b></font>)</i>', 'bg_bibrefs' ); ?> <br />
+	</td></tr>
+
+	</table>
+
+	<p class="submit">
+	<input type="submit" name="Submit" class="button-primary" value="<?php _e('Update Options', 'bg_bibrefs' ) ?>" />
+	</p>
 
 </form>
 

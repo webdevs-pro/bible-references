@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 0.2
+   Version: 0.3
    Author: VBog
    Author URI: https://bogaiskov.ru 
 	License:     GPL2
@@ -410,7 +410,6 @@ function bg_bibrefs_options_ini () {
 	add_option('bg_bibrefs_page', "");
 	add_option('bg_bibrefs_verses_lang', "");
 	add_option('bg_bibrefs_show_fn', "");
-	add_option('bg_bibrefs_target', "_blank");
 	add_option('bg_bibrefs_headers', "on");
 	add_option('bg_bibrefs_interpret', "on");
 	add_option('bg_bibrefs_parallel', "");
@@ -442,16 +441,9 @@ function bg_bibrefs_options_ini () {
 // Очистка таблицы параметров при удалении плагина
 function bg_bibrefs_deinstall() {
 	delete_option('bg_bibrefs_site');
-	// delete_option('bg_bibrefs_c_lang');
-	// delete_option('bg_bibrefs_r_lang');
-	// delete_option('bg_bibrefs_g_lang');
-	// delete_option('bg_bibrefs_l_lang');
-	// delete_option('bg_bibrefs_i_lang');
-	// delete_option('bg_bibrefs_c_font');
 	delete_option('bg_bibrefs_page');
 	delete_option('bg_bibrefs_verses_lang');
 	delete_option('bg_bibrefs_show_fn');
-	delete_option('bg_bibrefs_target');
 	delete_option('bg_bibrefs_headers');
 	delete_option('bg_bibrefs_interpret');
 	delete_option('bg_bibrefs_parallel');

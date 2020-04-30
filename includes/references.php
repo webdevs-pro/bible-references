@@ -359,20 +359,18 @@ function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 	global $bg_bibrefs_option;
 	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
 	
+
+
 	if ($book != "") {	
-		if ($bg_bibrefs_option['site'] == 'azbyka')
-			$fullurl = "<a href='"."http://azbyka.ru/biblia/?".$book.".". $chapter.$bg_bibrefs_option['azbyka']."' target='".$bg_bibrefs_option['target']."'>" .$link. "</a>";	// Полный адрес ссылки на azbyka.ru
-		elseif ($bg_bibrefs_option['site'] == 'this') {
-			$page = $bg_bibrefs_option['page'];
-			if ($page == "") $page = get_permalink(); 
-			$fullurl = "<a href='".$page."?bs=".$book.'.'.$chapter."&lang=".$lang."' target='".$bg_bibrefs_option['target']."'>" .$link. "</a>";			// Полный адрес ссылки на текущий сайт
-		}
-		else $fullurl = $link;
-		
+		$fullurl = $link;
+
+
+		//t
 		if (isset($bg_bibrefs_ps) && $book == 'Ps')
 			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ps." ".$chapter;				// Название книги, номера псалмов и стихов	
 		else
 			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ch." ".$chapter;				// Название книги, номера глав и стихов	
+			error_log( print_r($the_title, true) );
 
 		if ($bg_bibrefs_option['show_verses'] == 'on') {											// Текст  стихов
 //			$ajax_url = admin_url("admin-ajax.php?title=".$book."&chapter=".$chapter."&type=t_verses&lang=".$lang);
