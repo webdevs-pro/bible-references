@@ -351,7 +351,7 @@ function bg_bibrefs_check_tag($hdr, $pos) {
 function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
 
-	error_log( print_r($link, true) );
+	// error_log( print_r($link, true) );
 	
 /*******************************************************************************
    Проверяем настройки

@@ -105,46 +105,46 @@ if ( defined('ABSPATH') && defined('WPINC') ) {
 }
 
 // Функция, исполняемая при активации плагина.
-function  bg_bibrefs_activate() {
-	$folders=array("ru");
-	$bible_lang = get_bloginfo('language');	
-	$bible_lang = substr($bible_lang,0, 2);
-	$xml = @file_get_contents(BG_BIBREFS_SOURCE_URL."filelist.xml");
-	if ($xml) {
-		$files = json_decode(json_encode((array)simplexml_load_string($xml)),1);
-		$file = $files['file'];
-		foreach ($file as $f){
-			$lang = basename($f['filename'], ".zip");
-			if ($lang == $bible_lang) {
-				$folders=array($lang);
-				break;
-			}
-		}
-	}
-	foreach ($folders as $book) {
-		bg_bibrefs_addFolder($book.'.zip');
-	}
-	update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
-}
+// function  bg_bibrefs_activate() {
+// 	$folders=array("ru");
+// 	$bible_lang = get_bloginfo('language');	
+// 	$bible_lang = substr($bible_lang,0, 2);
+// 	$xml = @file_get_contents(BG_BIBREFS_SOURCE_URL."filelist.xml");
+// 	if ($xml) {
+// 		$files = json_decode(json_encode((array)simplexml_load_string($xml)),1);
+// 		$file = $files['file'];
+// 		foreach ($file as $f){
+// 			$lang = basename($f['filename'], ".zip");
+// 			if ($lang == $bible_lang) {
+// 				$folders=array($lang);
+// 				break;
+// 			}
+// 		}
+// 	}
+// 	foreach ($folders as $book) {
+// 		bg_bibrefs_addFolder($book.'.zip');
+// 	}
+// 	update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
+// }
 
-register_activation_hook( __FILE__, 'bg_bibrefs_activate' );
+// register_activation_hook( __FILE__, 'bg_bibrefs_activate' );
 
-// Проверяем текущую версию плагина и обновляем папки с книгами Библии
-function bg_bibrefs_upload_folders() {
-	$version = get_option('bg_bibrefs_version');
-	if (!$version) {
-		$folders=array('be','cu','en','ru','uk');
-		update_option( 'bg_bibrefs_folders', $folders );
-	}
-	if ( version_compare( $version, BG_BIBREFS_VERSION, '<' ) ) {
-		$folders=get_option('bg_bibrefs_folders');
-		if (!$folders) $folders = array("ru");			// Если нет папок, то по умолчанию русский язык
-		foreach ($folders as $book) bg_bibrefs_addFolder($book.'.zip');
+// // Проверяем текущую версию плагина и обновляем папки с книгами Библии
+// function bg_bibrefs_upload_folders() {
+// 	$version = get_option('bg_bibrefs_version');
+// 	if (!$version) {
+// 		$folders=array('be','cu','en','ru','uk');
+// 		update_option( 'bg_bibrefs_folders', $folders );
+// 	}
+// 	if ( version_compare( $version, BG_BIBREFS_VERSION, '<' ) ) {
+// 		$folders=get_option('bg_bibrefs_folders');
+// 		if (!$folders) $folders = array("ru");			// Если нет папок, то по умолчанию русский язык
+// 		foreach ($folders as $book) bg_bibrefs_addFolder($book.'.zip');
 
-		update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
-	}
-}
-add_action( 'plugins_loaded', 'bg_bibrefs_upload_folders' );
+// 		update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
+// 	}
+// }
+// add_action( 'plugins_loaded', 'bg_bibrefs_upload_folders' );
 
 /** ************************************************************************
  * Добавить папку с Библией на сайт
@@ -172,7 +172,7 @@ function bg_bibrefs_addFolder($book) {
 			unlink ( $local_url );
 		}		
 		$folders = bg_bibrefs_getFolders();
-		update_option( 'bg_bibrefs_folders', $folders );
+		// update_option( 'bg_bibrefs_folders', $folders );
 	}
 }
 /** ************************************************************************
@@ -188,7 +188,7 @@ function bg_bibrefs_removeFolder($book) {
 	}
 	@rmdir($dir);
 	$folders = bg_bibrefs_getFolders();
-	update_option( 'bg_bibrefs_folders', $folders );
+	// update_option( 'bg_bibrefs_folders', $folders );
 }
 /** ************************************************************************
  * Получить список папок с Библией на сайте
@@ -229,13 +229,12 @@ function set_bible_lang() {
 	if ($bible_lang_posts_val) 													// Если задан язык Библии для поста,
 		$bible_lang = $bible_lang_posts_val;									// то язык из поста (4)
 	
-	$file_books = dirname( __FILE__ ).'/bible/'.$bible_lang.'/books.php';		// Если для установеннного языка отсутствует каталог с Библией,
+	// $file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';		// Если для установеннного языка отсутствует каталог с Библией,
 	$file_books_uploaded = BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';	
-	if (!file_exists($file_books) && 
-		!file_exists($file_books_uploaded)) {
-			$bible_lang = 'ru';	 				// то по умолчанию русский язык (5)
-			$file_books = dirname( __FILE__ ).'/bible/'.$bible_lang.'/books.php';		// Если для русского языка отсутствует каталог с Библией,
-			if (!file_exists($file_books)) $bible_lang = '';							// то язык не установлен
+	if (!file_exists($file_books_uploaded)) {
+			$bible_lang = '';	 				// то по умолчанию русский язык (5)
+			// $file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';		// Если для русского языка отсутствует каталог с Библией,
+			// if (!file_exists($file_books)) $bible_lang = '';							// то язык не установлен
 		}
 	return $bible_lang;
 }
@@ -341,7 +340,7 @@ function bg_bibrefs_extra_fields_box_func( $post ){
 		<?php $bg_verses_lang_val = get_post_meta($post->ID, 'bible_lang', 1); ?>
 			<option <?php if($bg_verses_lang_val=="") echo "selected" ?> value=""><?php _e('Default', 'bg_bibrefs' ); ?></option>
 			<?php 
-			$path = dirname( __FILE__ ).'/bible/';
+			$path = BIBREFS_UPLOAD_DIR.'/bible/';
 			if (is_dir($path) && $handle = opendir($path)) {
 				while (false !== ($dir = readdir($handle))) { 
 					if (is_dir ( $path.$dir ) && $dir != '.' && $dir != '..') {
@@ -402,12 +401,12 @@ function bg_bibrefs_extra_fields_update( $post_id ){
 // Задание параметров по умолчанию
 function bg_bibrefs_options_ini () {
 	add_option('bg_bibrefs_site', "azbyka");
-	add_option('bg_bibrefs_c_lang', "c");
-	add_option('bg_bibrefs_r_lang', "r");
-	add_option('bg_bibrefs_g_lang');
-	add_option('bg_bibrefs_l_lang');
-	add_option('bg_bibrefs_i_lang');
-	add_option('bg_bibrefs_c_font', "ucs");
+	// add_option('bg_bibrefs_c_lang', "c");
+	// add_option('bg_bibrefs_r_lang', "r");
+	// add_option('bg_bibrefs_g_lang');
+	// add_option('bg_bibrefs_l_lang');
+	// add_option('bg_bibrefs_i_lang');
+	// add_option('bg_bibrefs_c_font', "ucs");
 	add_option('bg_bibrefs_page', "");
 	add_option('bg_bibrefs_verses_lang', "");
 	add_option('bg_bibrefs_show_fn', "");
@@ -437,18 +436,18 @@ function bg_bibrefs_options_ini () {
 	add_option('bg_bibrefs_debug', "");
 	
 	add_option('bg_bibrefs_version', 0 );
-	add_option('bg_bibrefs_folders', array('ru'));
+	// add_option('bg_bibrefs_folders', array('ru'));
 }
 
 // Очистка таблицы параметров при удалении плагина
 function bg_bibrefs_deinstall() {
 	delete_option('bg_bibrefs_site');
-	delete_option('bg_bibrefs_c_lang');
-	delete_option('bg_bibrefs_r_lang');
-	delete_option('bg_bibrefs_g_lang');
-	delete_option('bg_bibrefs_l_lang');
-	delete_option('bg_bibrefs_i_lang');
-	delete_option('bg_bibrefs_c_font');
+	// delete_option('bg_bibrefs_c_lang');
+	// delete_option('bg_bibrefs_r_lang');
+	// delete_option('bg_bibrefs_g_lang');
+	// delete_option('bg_bibrefs_l_lang');
+	// delete_option('bg_bibrefs_i_lang');
+	// delete_option('bg_bibrefs_c_font');
 	delete_option('bg_bibrefs_page');
 	delete_option('bg_bibrefs_verses_lang');
 	delete_option('bg_bibrefs_show_fn');
@@ -485,7 +484,7 @@ function bg_bibrefs_deinstall() {
 	delete_option('bg_bibrefs_options_udate');
 	
 	delete_option('bg_bibrefs_version');
-	delete_option('bg_bibrefs_folders');
+	// delete_option('bg_bibrefs_folders');
 }
 
 function bg_bibrefs_get_options () {
@@ -493,16 +492,16 @@ function bg_bibrefs_get_options () {
 
 // Читаем существующие значения опций из базы данных
 	$opt = "";
-	$c_lang_val = get_option( 'bg_bibrefs_c_lang' );
-    $r_lang_val = get_option( 'bg_bibrefs_r_lang' );
-    $g_lang_val = get_option( 'bg_bibrefs_g_lang' );
-    $l_lang_val = get_option( 'bg_bibrefs_l_lang' );
-    $i_lang_val = get_option( 'bg_bibrefs_i_lang' );
-	$lang_val = $c_lang_val.$r_lang_val.$g_lang_val.$l_lang_val.$i_lang_val;
-	$font_val = get_option( 'bg_bibrefs_c_font' );
-	if ($lang_val) $opt = "&".$lang_val;
-	if ($font_val && $c_lang_val) $opt = $opt."&".$font_val;
-	$bg_bibrefs_option['azbyka'] = $opt;
+	// $c_lang_val = get_option( 'bg_bibrefs_c_lang' );
+   //  $r_lang_val = get_option( 'bg_bibrefs_r_lang' );
+   //  $g_lang_val = get_option( 'bg_bibrefs_g_lang' );
+   //  $l_lang_val = get_option( 'bg_bibrefs_l_lang' );
+   //  $i_lang_val = get_option( 'bg_bibrefs_i_lang' );
+	// $lang_val = $c_lang_val.$r_lang_val.$g_lang_val.$l_lang_val.$i_lang_val;
+	// $font_val = get_option( 'bg_bibrefs_c_font' );
+	// if ($lang_val) $opt = "&".$lang_val;
+	// if ($font_val && $c_lang_val) $opt = $opt."&".$font_val;
+	// $bg_bibrefs_option['azbyka'] = $opt;
 	
 // Общие параметры	отображения ссылок
 	$bg_bibrefs_option['site'] = get_option( 'bg_bibrefs_site' );
