@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 1.0.1
+   Version: 1.0
    Author: VBog
    Author URI: https://bogaiskov.ru 
 	License:     GPL2
@@ -38,7 +38,7 @@ if ( !defined('ABSPATH') ) {
 	die( 'Sorry, you are not allowed to access this page directly.' ); 
 }
 
-define('BG_BIBREFS_VERSION', '1.0.1');
+define('BG_BIBREFS_VERSION', '1.0');
 // define('BG_BIBREFS_SOURCE_URL', "http://plugins.svn.wordpress.org/bg-biblie-references/bible/");
 // define('BG_BIBREFS_SOURCE_URL', "https://shofar-media.in.ua/bible/");
 define('GITHUB_BOOKS_REPOSITORY', "webdevs-pro/bible-books"); // github user/repository
