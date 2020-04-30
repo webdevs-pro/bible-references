@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 1.2
+   Version: 0.2
    Author: VBog
    Author URI: https://bogaiskov.ru 
 	License:     GPL2
@@ -38,15 +38,15 @@ if ( !defined('ABSPATH') ) {
 	die( 'Sorry, you are not allowed to access this page directly.' ); 
 }
 
-define('BG_BIBREFS_VERSION', '1.1');
-// define('BG_BIBREFS_SOURCE_URL', "http://plugins.svn.wordpress.org/bg-biblie-references/bible/");
-// define('BG_BIBREFS_SOURCE_URL', "https://shofar-media.in.ua/bible/");
+if( ! function_exists('get_plugin_data') ) require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+define('BG_BIBREFS_VERSION', get_plugin_data( __FILE__ )['Version']);
+
 define('GITHUB_BOOKS_REPOSITORY', "webdevs-pro/bible-books"); // github user/repository
 define('BIBREFS_DIR_NAME', plugin_basename(__FILE__));
 
 
 $upload_dir = wp_upload_dir();
-define('BG_BIBREFS_UPLOAD_DIR', $upload_dir['basedir']);
+define('BIBREFS_UPLOAD_DIR', $upload_dir['basedir']);
 
 $bg_bibrefs_start_time = microtime(true);
 
@@ -158,7 +158,7 @@ function bg_bibrefs_addFolder($book) {
 	error_log( print_r($local_url, true) );
 
 	// $subfolder = dirname(__FILE__ ).'/bible/'.basename($book, ".zip").'/';
-	$subfolder = BG_BIBREFS_UPLOAD_DIR.'/bible/'.basename($book, ".zip").'/';
+	$subfolder = BIBREFS_UPLOAD_DIR.'/bible/'.basename($book, ".zip").'/';
 	error_log( print_r($subfolder, true) );
 
 	
@@ -179,7 +179,7 @@ function bg_bibrefs_addFolder($book) {
  * Удалить папку с Библией с сайта
  **************************************************************************/
 function bg_bibrefs_removeFolder($book) {
-	$path = BG_BIBREFS_UPLOAD_DIR.'/bible/';
+	$path = BIBREFS_UPLOAD_DIR.'/bible/';
 	$dir=$path.basename($book, ".zip"); 
 	if ($objs = glob($dir."/*")) {
 		foreach($objs as $obj) {
@@ -195,7 +195,7 @@ function bg_bibrefs_removeFolder($book) {
  **************************************************************************/
 function bg_bibrefs_getFolders() {
 	$folders = array();
-	$path = BG_BIBREFS_UPLOAD_DIR.'/bible/';
+	$path = BIBREFS_UPLOAD_DIR.'/bible/';
 	$id = 0;
 	if ($handle = @opendir($path)) {
 		while (false !== ($dir = readdir($handle))) { 
@@ -230,7 +230,7 @@ function set_bible_lang() {
 		$bible_lang = $bible_lang_posts_val;									// то язык из поста (4)
 	
 	$file_books = dirname( __FILE__ ).'/bible/'.$bible_lang.'/books.php';		// Если для установеннного языка отсутствует каталог с Библией,
-	$file_books_uploaded = BG_BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';	
+	$file_books_uploaded = BIBREFS_UPLOAD_DIR.'/bible/'.$bible_lang.'/books.php';	
 	if (!file_exists($file_books) && 
 		!file_exists($file_books_uploaded)) {
 			$bible_lang = 'ru';	 				// то по умолчанию русский язык (5)
@@ -251,7 +251,7 @@ function include_books($lang) {
 	
 	$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
 	if (!file_exists($file_books)) // Если нет в папке плагина, то ищем в /wp-content/uploads
-		$file_books = BG_BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
+		$file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
 	if (!file_exists($file_books)) {
 		$lang = set_bible_lang(); // Если язык задан неверно, устанавливаем язык системы
 		$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
