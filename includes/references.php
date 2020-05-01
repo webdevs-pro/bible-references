@@ -365,12 +365,12 @@ function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 		$fullurl = $link;
 
 
-		//t
+		// псалом  или глава
 		if (isset($bg_bibrefs_ps) && $book == 'Ps')
 			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ps." ".$chapter;				// Название книги, номера псалмов и стихов	
 		else
 			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ch." ".$chapter;				// Название книги, номера глав и стихов	
-			error_log( print_r($the_title, true) );
+
 
 		if ($bg_bibrefs_option['show_verses'] == 'on') {											// Текст  стихов
 //			$ajax_url = admin_url("admin-ajax.php?title=".$book."&chapter=".$chapter."&type=t_verses&lang=".$lang);
