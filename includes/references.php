@@ -372,23 +372,14 @@ function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ch." ".$chapter;				// Название книги, номера глав и стихов	
 
 
-		if ($bg_bibrefs_option['show_verses'] == 'on') {											// Текст  стихов
-//			$ajax_url = admin_url("admin-ajax.php?title=".$book."&chapter=".$chapter."&type=t_verses&lang=".$lang);
-			$ajax_url = "?title=".$book."&chapter=".$chapter."&type=t_verses&lang=".$lang;
-		} else {
-			$ajax_url = "";
-		}
-		if ($bg_bibrefs_option['pload']) {
-			$verses = bg_bibrefs_getQuotes($book, $chapter, 't_verses', $lang); 
-			if ($verses) {
-				$expand_button = "<img src='".plugins_url( '../js/expand.png' , __FILE__ )."' style='cursor:pointer; margin-right: 8px;' align='left' width=16 height=16 title1='".(__('Expand', 'bg_bibrefs' ))."' title2='".(__('Hide', 'bg_bibrefs' ))."' />";
-				$verses = $expand_button.$verses; 
-				$url = "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='' title=''><span class='bg_data_tooltip'>".$verses."</span>".$fullurl."</span>"; 
-			} else $url = "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='' title='".$the_title."' style='border-bottom: 2px dotted red;'><span class='bg_data_tooltip'></span>".$link."</span>";
-			return $url;
-		} else {
-			return "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='".$ajax_url."' title='".$the_title."'><span class='bg_data_tooltip'></span>".$fullurl."</span>"; 
-		}
+									
+		$ajax_url = "?title=".$book."&chapter=".$chapter."&type=t_verses&lang=".$lang;
+
+
+
+		return "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='".$ajax_url."' title='".$the_title."'>".$fullurl."</span>"; 
+
+		
 	}
 	else return "";
 }

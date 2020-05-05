@@ -37,65 +37,94 @@ p.bg_bibrefs_close {
 	margin-bottom: 0;
 }
 
-/*****************************************
-	Таблица выбора книг Библии
-******************************************/
-.column-filename {
-	width: 10%;
-	min-width: 20px;
+
+
+/* POPUP */
+.bible_references {
+	visibility: hidden;
+	opacity: 0;
+	position: fixed;
+	top: -100px;
+	left: 0;
+	bottom: -100px;
+	/* height: 100%; */
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: 200ms ease-in;
 }
-.column-name {
-	width: 20%;
-	min-width: 40px;
-}
-.column-status {
-	width: 7%;
-	min-width: 10px;
-}
-/*****************************************
-	Всплывающие подсказки у ссылок
-******************************************/
-.bg_data_title {
-    position: static; /* Относительное позиционирование */
-	white-space: nowrap;/* Запрет переноса строк ссылки */
-	cursor: pointer;	/* Курсор - указатель */
-}
-.bg_data_tooltip {
-	display: none;
-    position: absolute; /* Абсолютное позиционирование */
-	white-space: normal;/* В подсказке перенос строк разрешен */
-	overflow-y: hidden; 	/* Разрешить при необходимости скроллинг по вертикали */
-	overflow-x: hidden; /* Запретить скроллинг по горизонтали */
-    z-index: 101; 		/* Отображаем подсказку поверх других элементов */
-	left: 0px; 
-	top: 80px; 							/* Вертикальное положение подсказки */
-	width: 240px;						/* Ширина подсказки */
-	max-height: 240px;					/* Максимальная высота подсказки */
-	max-width: 600px;					/* Максимальная ширина подсказки */
-	margin: 0px;						/* Отступ = 0 */
-    padding:  5px 5px 5px 10px; 		/* Поля */
-    border: 1px solid #767676; 			/* Параметры рамки */
-	font-family: sans-serif;			/* Вид шрифта */
-	font-size: 12px; 					/* Размер текста стиха */
-	font-style: normal;					/* Стиль текста */
-	font-weight: normal;				/* Толщина шрифта текста */
-	font-stretch: normal;				/* Начертание шрифта текста */
-    color: #000000; 					/* Цвет текста */
-	text-decoration: none; 				/* Без подчеркивания */
-	text-align: start;					/* Прижать текст влево */
-    background-color: rgba(253,253,255,0.99); 	/* Полупрозрачный цвет фона */
-	box-shadow: 5px 5px 5px -3px rgba(118, 118, 118, 0.9);	/* Тень	*/
-	-webkit-box-shadow: 5px 5px 5px -3px rgba(118, 118, 118, 0.9);
-	-moz-box-shadow: 5px 5px 5px -3px rgba(118, 118, 118, 0.9);
+.bible_references.br_popup_visible {
+	transition: opacity 100ms ease-out;
+	opacity: 1;
+	visibility: visible;
 
 }
-#bg_BG_overlay {
-  background-color: #000;	/* Чёрный фон */
-  height: 100%;				/* Высота максимальна */
-  left: 0;					/* Нулевой отступ слева */
-  opacity: 0.50;			/* Степень прозрачности */
-  position: fixed;			/* Фиксированное положение */
-  top: 0;					/* Нулевой отступ сверху */
-  width: 100%;				/* Ширина максимальна */
-  z-index: 100;				/* Заведомо быть НАД другими элементами */
+.bible_references_popup {
+	width: 800px;
+	height: 600px;
+	background-color: #F5ECDB;
+	transform: scale(0.8);
+	opacity: 0;
+	transition: 100ms ease-in;
+	margin: 10px;
+	border-radius: 3px;
+	box-shadow: 0 30px 150px rgba(0, 0, 0, 0.6);
+}
+.bible_references.br_popup_visible .bible_references_popup {
+	transform: scale(1);
+	opacity: 1;
+	transition: 200ms ease-out;
+}
+
+.bible_references_popup_header {
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0px 20px rgba(0, 0, 0, 0.2);
+}
+#bible_books {
+	margin-left: 5px;
+	width: 300px;
+	max-width: 80%;
+}
+.bible_references_popup_close {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	top: 10px;
+	right: 10px;
+	border: 2px solid #333;
+	background-color: #fff;
+	cursor: pointer;
+}
+.bible_references_popup_close:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	height: 60%;
+	left: 50%;
+	width:2px;
+	transform: translate(-50%, -50%) rotate(45deg);
+	background-color: #333;
+}
+.bible_references_popup_close:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	height: 60%;
+	left: 50%;
+	width:2px;
+	transform: translate(-50%, -50%) rotate(-45deg);
+	background-color: #333;
+}
+.bible_references_popup_content {
+	padding: 10px;
+	overflow-y: scroll;
+	max-height: calc(100% - 50px); 
 }

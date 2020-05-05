@@ -3,11 +3,11 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 0.3
-   Author: VBog
-   Author URI: https://bogaiskov.ru 
+   Version: 0.4
+   Author: Alex Ischenko
+   Author URI: https://shofar-media.in.ua 
 	License:     GPL2
-	Text Domain: bg_bibrefs
+	Text Domain: bibrefs
 	Domain Path: /languages
 */
 
@@ -60,14 +60,24 @@ add_action( 'admin_enqueue_scripts' , 'bg_enqueue_frontend_styles' );
 
 // JS скрипт 
 function bg_enqueue_frontend_scripts () {
-    $bg_preq_val = get_option( 'bg_bibrefs_prereq' );
-	if ($bg_preq_val == 'on') $preq = 1;
-	else $preq = 0;
+
 	$content=get_option( "bg_bibrefs_content" );
-    $ajaxurl = trim(get_option( 'bg_bibrefs_ajaxurl' ));
+	$ajaxurl = trim(get_option( 'bg_bibrefs_ajaxurl' ));
+
+
+
+	// error_log( print_r($bible_books, true) );
+	
 	if (!$ajaxurl) $ajaxurl=admin_url('admin-ajax.php');
-	wp_enqueue_script( 'bg_bibrefs_proc', plugins_url( 'js/bg_bibrefs.js', __FILE__ ), false, BG_BIBREFS_VERSION, true );
-	wp_localize_script( 'bg_bibrefs_proc', 'bg_bibrefs', array( 'ajaxurl' => $ajaxurl, 'content' => $content, 'preq' => $preq ) );
+	wp_enqueue_script( 'bg_bibrefs_proc', plugins_url( 'js/biblerefs.js', __FILE__ ), false, BG_BIBREFS_VERSION, true );
+	wp_localize_script( 
+		'bg_bibrefs_proc', 
+		'bg_bibrefs', array( 
+			'ajaxurl' => $ajaxurl, 
+			'content' => $content, 
+			'bible_books' => get_bible_books()
+		) 
+	);
 }	 
 if ( !is_admin() ) {
 	add_action( 'wp_enqueue_scripts' , 'bg_enqueue_frontend_scripts' ); 
@@ -248,13 +258,12 @@ function include_books($lang) {
 	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
 	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
 	
-	$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
-	if (!file_exists($file_books)) // Если нет в папке плагина, то ищем в /wp-content/uploads
-		$file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
-	if (!file_exists($file_books)) {
-		$lang = set_bible_lang(); // Если язык задан неверно, устанавливаем язык системы
-		$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
-	}
+
+	$file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
+	// if (!file_exists($file_books)) {
+	// 	$lang = set_bible_lang(); // Если язык задан неверно, устанавливаем язык системы
+	// 	$file_books = dirname( __FILE__ ).'/bible/'.$lang.'/books.php';
+	// }
 	if ($lang) include($file_books);
 	return $lang;
 }
@@ -293,6 +302,27 @@ function bg_bibrefs_booklist ($lang) {
 	} 
 	echo json_encode ($booklist);
 }
+
+
+
+function get_bible_books() {
+	// array of available books with names and titles
+	$bible_books = array();
+	$path = BIBREFS_UPLOAD_DIR.'/bible/';
+	if (is_dir($path) && $handle = opendir($path)) {
+		while (false !== ($dir = readdir($handle))) { 
+			if (is_dir ( $path.$dir ) && $dir != '.' && $dir != '..') {
+				include ($path.$dir.'/books.php');
+				$bible_books[] = array(
+					'book_name' => $dir,
+					'book_title' => $bg_bibrefs_lang_name
+				);
+			}
+		}
+		closedir($handle); 
+	} 
+	return $bible_books;
+}
 /*****************************************************************************************
 	Генератор ответа AJAX
 	
@@ -310,10 +340,14 @@ function bg_bibrefs_callback() {
 		$lang = $_GET["lang"];
 		$type = $_GET["type"];
 		if (!$type) $type = 'verses';
-		$verses = bg_bibrefs_getQuotes($title, $chapter, $type, $lang);
+		
+		// error_log( print_r($title, true) );
+		// error_log( print_r($chapter, true) );
+		// error_log( print_r($lang, true) );
+
+		$verses = bg_bibrefs_getQuotes($title, $chapter, $type, $lang); // получаем содержимое
 		if ($verses) {
-			$expand_button = '<img src="'.plugins_url( '/js/expand.png' , __FILE__ ).'" style="cursor:pointer; margin-right: 8px;" align="left" width=16 height=16 title1="'.(__('Expand', 'bg_bibrefs' )).'" title2="'.(__('Hide', 'bg_bibrefs' )).'" />';
-			echo $expand_button. $verses;
+			echo $verses;
 		} 
 	}
 	wp_die();
@@ -425,8 +459,8 @@ function bg_bibrefs_options_ini () {
 	add_option('bg_bibrefs_curl', "on");
 	add_option('bg_bibrefs_fgc', "on");
 	add_option('bg_bibrefs_fopen', "on");
-	add_option('bg_bibrefs_preload');
-	add_option('bg_bibrefs_prereq');
+	// add_option('bg_bibrefs_preload');
+	// add_option('bg_bibrefs_prereq');
 	add_option('bg_bibrefs_maxtime', "60");
 	add_option('bg_bibrefs_ajaxurl', "");
 	add_option('bg_bibrefs_content', "#content");
@@ -448,7 +482,7 @@ function bg_bibrefs_deinstall() {
 	delete_option('bg_bibrefs_interpret');
 	delete_option('bg_bibrefs_parallel');
 	delete_option('bg_bibrefs_norm_refs');
-	delete_option('bg_bibrefs_show_verses');
+	// delete_option('bg_bibrefs_show_verses');
 	
 	delete_option('bg_bibrefs_dot');
     delete_option('bg_bibrefs_romeh');
@@ -462,8 +496,8 @@ function bg_bibrefs_deinstall() {
 	delete_option('bg_bibrefs_curl');
 	delete_option('bg_bibrefs_fgc');
 	delete_option('bg_bibrefs_fopen');
-	delete_option('bg_bibrefs_preload');
-	delete_option('bg_bibrefs_prereq');
+	// delete_option('bg_bibrefs_preload');
+	// delete_option('bg_bibrefs_prereq');
 	delete_option('bg_bibrefs_maxtime');
 	delete_option('bg_bibrefs_cashe');
 	delete_option('bg_bibrefs_ajaxurl');
@@ -503,7 +537,7 @@ function bg_bibrefs_get_options () {
 	if ($bg_bibrefs_option['content'] == "") $bg_bibrefs_option['content'] = 'body';
     $bg_bibrefs_option['class'] = get_option( 'bg_bibrefs_class' );
 	if ($bg_bibrefs_option['class'] == "") $bg_bibrefs_option['class'] = 'bg_bibrefs';
-	$bg_bibrefs_option['show_verses'] = get_option( 'bg_bibrefs_show_verses' );	
+	// $bg_bibrefs_option['show_verses'] = get_option( 'bg_bibrefs_show_verses' );	
 
     $bg_bibrefs_option['verses_lang'] = get_option( 'bg_bibrefs_verses_lang' );
     $bg_bibrefs_option['show_fn'] = get_option( 'bg_bibrefs_show_fn' );
@@ -523,8 +557,8 @@ function bg_bibrefs_get_options () {
     $bg_bibrefs_option['fgc'] = get_option( 'bg_bibrefs_fgc' );
     $bg_bibrefs_option['fopen'] = get_option( 'bg_bibrefs_fopen' );
 
-    $bg_bibrefs_option['pload'] = get_option('bg_bibrefs_preload' );
-    $bg_bibrefs_option['preq'] = get_option('bg_bibrefs_prereq' );
+   //  $bg_bibrefs_option['pload'] = get_option('bg_bibrefs_preload' );
+   //  $bg_bibrefs_option['preq'] = get_option('bg_bibrefs_prereq' );
 	
     $bg_bibrefs_option['maxtime'] = (int) get_option( 'bg_bibrefs_maxtime' );
 	
@@ -542,3 +576,33 @@ if (is_admin()) {
       'bible-references'
    );
 }
+
+
+
+add_action('wp_footer', function(){
+	?>
+		<div class="bible_references">
+			<div class="bible_references_popup">
+				<div class="bible_references_popup_header">
+					<span><?php echo __('Bible:', 'bg_bibrefs' ); ?></span>
+					<select id="bible_books" autocomplete="off">
+					<?php $bg_verses_lang_val = get_post_meta(get_the_ID(), 'bible_lang', 1); 
+						error_log( print_r($bg_verses_lang_val, true) );
+						foreach(get_bible_books() as $bible_book) {
+							echo "<option ";
+							if($bible_book['book_name'] == $bg_verses_lang_val) echo "selected";
+							echo " value=".$bible_book['book_name'].">".$bible_book['book_title']."</option>";
+						}
+						?>
+					</select>
+					<div class="bible_references_popup_close"></div>
+				</div>
+				
+
+				<div class="bible_references_popup_content">
+					<div class="bible_references_popup_verses"></div>
+				</div>
+			</div>		
+		</div>
+	<?php
+});

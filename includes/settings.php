@@ -29,7 +29,7 @@ function bg_bibrefs_options_page() {
 	$bg_parallel = 'bg_bibrefs_parallel';				// Включить ссылки на паралельные места Священного Писания
 
 	$bg_norm_refs = 'bg_bibrefs_norm_refs';				// Преобразовывать ссылки к нормализованному виду
-	$bg_verses_name = 'bg_bibrefs_show_verses';			// Отображать стихи из Библии во всплывающей подсказке
+	// $bg_verses_name = 'bg_bibrefs_show_verses';			// Отображать стихи из Библии во всплывающей подсказке
 
     $bg_perm_dot = 'bg_bibrefs_dot';					// Разрешить отсутствие точки после обозначения книги
     $bg_perm_romeh = 'bg_bibrefs_romeh';				// Разрешить Римские цифры
@@ -41,8 +41,8 @@ function bg_bibrefs_options_page() {
 	$bg_fgc_name = 'bg_bibrefs_fgc';					// Чтение файлов Библии с помощью file_get_contents()
 	$bg_fopen_name = 'bg_bibrefs_fopen';				// Чтение файлов Библии с помощью fopen()
 	
-	$bg_bibrefs_pload = 'bg_bibrefs_preload';			// Предварительно загружать стихи из Библии в всплывающие подсказки - до создания строницы (php)
-	$bg_bibrefs_preq = 'bg_bibrefs_prereq';				// Предварительно загружать стихи из Библии в всплывающие подсказки - после создания страницы (ajax)
+	// $bg_bibrefs_pload = 'bg_bibrefs_preload';			// Предварительно загружать стихи из Библии в всплывающие подсказки - до создания строницы (php)
+	// $bg_bibrefs_preq = 'bg_bibrefs_prereq';				// Предварительно загружать стихи из Библии в всплывающие подсказки - после создания страницы (ajax)
 	
 	$bg_bibrefs_maxtime = "bg_bibrefs_maxtime";			// Максимальное время работы скрипта
 
@@ -77,7 +77,7 @@ function bg_bibrefs_options_page() {
     $bg_parallel_val = get_option( $bg_parallel );
 
     $bg_norm_refs_val = get_option( $bg_norm_refs );
-    $bg_verses_val = get_option( $bg_verses_name );
+   //  $bg_verses_val = get_option( $bg_verses_name );
 
     $bg_perm_dot_val = get_option( $bg_perm_dot );
     $bg_perm_romeh_val = get_option( $bg_perm_romeh );
@@ -89,8 +89,8 @@ function bg_bibrefs_options_page() {
     $bg_fgc_val = get_option( $bg_fgc_name );
     $bg_fopen_val = get_option( $bg_fopen_name );
 
-    $bg_bibrefs_pload_val = get_option( $bg_bibrefs_pload );
-	$bg_bibrefs_preq_val = get_option( $bg_bibrefs_preq );
+   //  $bg_bibrefs_pload_val = get_option( $bg_bibrefs_pload );
+	// $bg_bibrefs_preq_val = get_option( $bg_bibrefs_preq );
 	
 	$bg_bibrefs_maxtime_val = (int) get_option($bg_bibrefs_maxtime);
 
@@ -149,8 +149,8 @@ function bg_bibrefs_options_page() {
 		$bg_norm_refs_val = sanitize_text_field(( isset( $_POST[$bg_norm_refs] ) && $_POST[$bg_norm_refs] ) ? $_POST[$bg_norm_refs] : '') ;
 		update_option( $bg_norm_refs, $bg_norm_refs_val );
 
-		$bg_verses_val = sanitize_text_field(( isset( $_POST[$bg_verses_name] ) && $_POST[$bg_verses_name] ) ? $_POST[$bg_verses_name] : '') ;
-		update_option( $bg_verses_name, $bg_verses_val );
+		// $bg_verses_val = sanitize_text_field(( isset( $_POST[$bg_verses_name] ) && $_POST[$bg_verses_name] ) ? $_POST[$bg_verses_name] : '') ;
+		// update_option( $bg_verses_name, $bg_verses_val );
 
 		$bg_perm_dot_val = sanitize_text_field(( isset( $_POST[$bg_perm_dot] ) && $_POST[$bg_perm_dot] ) ? $_POST[$bg_perm_dot] : '') ;
 		update_option( $bg_perm_dot, $bg_perm_dot_val );
@@ -176,11 +176,11 @@ function bg_bibrefs_options_page() {
 		$bg_fopen_val = sanitize_text_field(( isset( $_POST[$bg_fopen_name] ) && $_POST[$bg_fopen_name] ) ? $_POST[$bg_fopen_name] : '') ;
 		update_option( $bg_fopen_name, $bg_fopen_val );
 
-		$bg_bibrefs_pload_val = sanitize_text_field(( isset( $_POST[$bg_bibrefs_pload] ) && $_POST[$bg_bibrefs_pload] ) ? $_POST[$bg_bibrefs_pload] : '') ;
-		update_option( $bg_bibrefs_pload, $bg_bibrefs_pload_val );
+		// $bg_bibrefs_pload_val = sanitize_text_field(( isset( $_POST[$bg_bibrefs_pload] ) && $_POST[$bg_bibrefs_pload] ) ? $_POST[$bg_bibrefs_pload] : '') ;
+		// update_option( $bg_bibrefs_pload, $bg_bibrefs_pload_val );
 
-		$bg_bibrefs_preq_val = sanitize_text_field(( isset( $_POST[$bg_bibrefs_preq] ) && $_POST[$bg_bibrefs_preq] ) ? $_POST[$bg_bibrefs_preq] : '') ;
-		update_option( $bg_bibrefs_preq, $bg_bibrefs_preq_val );
+		// $bg_bibrefs_preq_val = sanitize_text_field(( isset( $_POST[$bg_bibrefs_preq] ) && $_POST[$bg_bibrefs_preq] ) ? $_POST[$bg_bibrefs_preq] : '') ;
+		// update_option( $bg_bibrefs_preq, $bg_bibrefs_preq_val );
 
 		$bg_bibrefs_maxtime_val = (int) sanitize_text_field(( isset( $_POST[$bg_bibrefs_maxtime] ) && $_POST[$bg_bibrefs_maxtime] ) ? $_POST[$bg_bibrefs_maxtime] : '') ;
 		update_option( $bg_bibrefs_maxtime, $bg_bibrefs_maxtime_val );
@@ -227,37 +227,37 @@ function bg_bibrefs_options_page() {
 // 	if (elRadio[1].checked) permalink.style.display = '';
 // 	else permalink.style.display = 'none';
 // }
-function bg_verses_checked() {
-	if (document.getElementById('bg_verses').checked == true) {
-		document.getElementById('bg_bibrefs_pload').disabled = false;
-		document.getElementById('bg_bibrefs_preq').disabled = false;
-	} else {
-		document.getElementById('bg_bibrefs_pload').disabled = true;
-		document.getElementById('bg_bibrefs_pload').checked = false;
-		document.getElementById('bg_bibrefs_preq').disabled = true;
-		document.getElementById('bg_bibrefs_preq').checked = false;
-	}
-}
-function bg_bibrefs_check_preload() {
-	if (document.getElementById('bg_bibrefs_pload').checked == true) {
-		document.getElementById('bg_bibrefs_preq').checked = false;
-	}
-}
-function bg_bibrefs_check_prereq() {
-	if (document.getElementById('bg_bibrefs_preq').checked == true){
-		document.getElementById('bg_bibrefs_pload').checked = false;
-	}
-}
+// function bg_verses_checked() {
+// 	if (document.getElementById('bg_verses').checked == true) {
+// 		document.getElementById('bg_bibrefs_pload').disabled = false;
+// 		document.getElementById('bg_bibrefs_preq').disabled = false;
+// 	} else {
+// 		document.getElementById('bg_bibrefs_pload').disabled = true;
+// 		document.getElementById('bg_bibrefs_pload').checked = false;
+// 		document.getElementById('bg_bibrefs_preq').disabled = true;
+// 		document.getElementById('bg_bibrefs_preq').checked = false;
+// 	}
+// }
+// function bg_bibrefs_check_preload() {
+// 	if (document.getElementById('bg_bibrefs_pload').checked == true) {
+// 		document.getElementById('bg_bibrefs_preq').checked = false;
+// 	}
+// }
+// function bg_bibrefs_check_prereq() {
+// 	if (document.getElementById('bg_bibrefs_preq').checked == true){
+// 		document.getElementById('bg_bibrefs_pload').checked = false;
+// 	}
+// }
 function reading_off_checked() {
 	if (document.getElementById('bg_curl').checked == true || document.getElementById('bg_fgc').checked == true || document.getElementById('bg_fopen').checked == true) {
 		document.getElementById('bg_verses').disabled = false;
 	} else {
 		document.getElementById('bg_verses').disabled = true;
 		document.getElementById('bg_verses').checked = false;
-		document.getElementById('bg_bibrefs_pload').disabled = true;
-		document.getElementById('bg_bibrefs_pload').checked = false;
-		document.getElementById('bg_bibrefs_preq').disabled = true;
-		document.getElementById('bg_bibrefs_preq').checked = false;
+		// document.getElementById('bg_bibrefs_pload').disabled = true;
+		// document.getElementById('bg_bibrefs_pload').checked = false;
+		// document.getElementById('bg_bibrefs_preq').disabled = true;
+		// document.getElementById('bg_bibrefs_preq').checked = false;
 	}
 }
 </script>    
@@ -346,18 +346,7 @@ function reading_off_checked() {
 		<input type="checkbox" id="bg_headers" name="<?php echo $bg_headers ?>" <?php if($bg_headers_val=="on") echo "checked" ?>  value="on"> <br />
 		</td></tr>
 
-		<tr valign="top">
-		<th scope="row"><?php _e('Show Bible verses in popup', 'bg_bibrefs' ); ?></th>
-		<td>
-		<input type="checkbox" id="bg_verses" name="<?php echo $bg_verses_name ?>" <?php if($bg_verses_val=="on") echo "checked" ?>  value="on" onclick='bg_verses_checked();'> <?php _e('<br><i>(If this option is disabled or data are not received from the server,<br>popup showing the Bible book title, chapter number and verse numbers)</i>', 'bg_bibrefs' ); ?> <br />
-		</td></tr>
 
-		<tr valign="top">
-		<th scope="row"><?php _e('Preload Bible verses in tooltips', 'bg_bibrefs' ); ?></th>
-		<td>
-		<input type="checkbox" id="bg_bibrefs_pload" name="<?php echo $bg_bibrefs_pload ?>" <?php if($bg_bibrefs_pload_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_preload();'> <?php _e(' - before upload of the post (using PHP)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Requires a lot of of time to prepare and upload of the post.<br><u>Warning:</u> You can have a problem with limiting the maximum execution time for script on the server.)</i>', 'bg_bibrefs' ); ?><br /><br />
-		<input type="checkbox" id="bg_bibrefs_preq" name="<?php echo $bg_bibrefs_preq ?>" <?php if($bg_bibrefs_preq_val=="on") echo "checked" ?>  value="on" onclick='bg_bibrefs_check_prereq();'> <?php _e(' - after upload of the post (using AJAX)', 'bg_bibrefs' ); ?><?php _e('<br><i>(Try this option on a slow server.<br><u>Warning:</u> You can have a problem with ajax-requests limiting on the server.)</i>', 'bg_bibrefs' ); ?> <br />
-		</td></tr>
 		<script>
 		bg_verses_checked();
 		bg_bibrefs_check_preload();
@@ -496,25 +485,8 @@ function reading_off_checked() {
 
 <div class="bg_bibrefs_info_box">
 
-	<h3><?php _e('Thanks for using Bg Biblie References', 'bg_bibrefs') ?></h3>
-	<p class="bg_bibrefs_gravatar"><a href="http://bogaiskov.ru" target="_blank"><?php echo get_avatar("vadim.bogaiskov@gmail.com", '64'); ?></a></p>
-	<p><?php _e('Dear brothers and sisters!<br />Thank you for using my plugin!<br />I hope it is useful for your site.', 'bg_bibrefs') ?></p>
-	<p class="bg_bibrefs_author"><a href="http://bogaiskov.ru" target="_blank"><?php _e('Vadim Bogaiskov', 'bg_bibrefs') ?></a></p>
+	<h3><?php _e('Thanks for using Biblie References', 'bg_bibrefs') ?></h3>
 
-	<h3><?php _e('I like this plugin<br>– how can I thank you?', 'bg_bibrefs') ?></h3>
-	<p><?php _e('There are several ways for you to say thanks:', 'bg_bibrefs') ?></p>
-	<ul>
-		<li><?php printf(__('<a href="%1$s" target="_blank">Give a donation</a>  for the construction of the church of Sts. Peter and Fevronia in Marino', 'bg_bibrefs'), "http://hpf.ru.com/donate/") ?></li>
-		<li><?php printf(__('<a href="%1$s" target="_blank">Give 5 stars</a> over at the WordPress Plugin Directory', 'bg_bibrefs'), "http://wordpress.org/support/view/plugin-reviews/bg-biblie-references") ?></li>
-		<li><?php printf(__('Share infotmation or make a nice blog post about the plugin', 'bg_bibrefs')) ?></li>
-	</ul>
-	<div class="share42init" align="center" data-url="http://bogaiskov.ru/bg_bibrefs/" data-title="<?php _e('Bg Bible References really cool plugin for Orthodox WordPress sites', 'bg_bibrefs') ?>"></div>
-	<script type="text/javascript" src="<?php printf( plugins_url( 'share42/share42.js' , dirname(__FILE__) ) ) ?>"></script>
-
-	<h3><?php _e('Support', 'bg_bibrefs') ?></h3>
-	<p><?php printf(__('Please see the <a href="%1$s" target="_blank">support forum</a> or <a href="%2$s" target="_blank">plugin\'s site</a> for help.', 'bg_bibrefs'), "http://wordpress.org/support/plugin/bg-biblie-references", "http://wp-bible.info/") ?></p>
-	
-	<p class="bg_bibrefs_close"><?php _e("God protect you!", 'bg_bibrefs') ?></p>
 </div>
 </td></tr></table>
 <?php 
