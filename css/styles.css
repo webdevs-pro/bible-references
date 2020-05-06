@@ -41,9 +41,10 @@ p.bg_bibrefs_close {
 .bg_bibrefs {
 	white-space:nowrap;
 	cursor: pointer;
+	border: 1px dashed transparent;
 }
 .bg_bibrefs:hover {
-	background-color: #ccc;
+	border: 1px dashed #ccc;
 }
 
 /* POPUP */
