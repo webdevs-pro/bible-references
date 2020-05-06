@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references and display Bible verses in popup.
-   Version: 0.7.3
+   Version: 0.7.4
    Author: Alex Ischenko
    Author URI: https://shofar-media.in.ua 
 	License:     GPL2
@@ -146,14 +146,14 @@ if ( defined('ABSPATH') && defined('WPINC') ) {
 function biblerefs_addFolder($book) {
 
 	$source_url = 'https://github.com/' . GITHUB_BOOKS_REPOSITORY . '/raw/master/' . $book;
-	error_log( print_r($source_url, true) );
+	// error_log( print_r($source_url, true) );
 
 	$local_url = dirname(__FILE__ ).'/'.$book;
-	error_log( print_r($local_url, true) );
+	// error_log( print_r($local_url, true) );
 
 	// $subfolder = dirname(__FILE__ ).'/bible/'.basename($book, ".zip").'/';
 	$subfolder = BIBREFS_UPLOAD_DIR.'/bible/'.basename($book, ".zip").'/';
-	error_log( print_r($subfolder, true) );
+	// error_log( print_r($subfolder, true) );
 
 	
 
@@ -572,7 +572,7 @@ add_action('wp_footer', function(){
 					<span><?php echo __('Bible:', 'biblerefs' ); ?></span>
 					<select id="bible_books" autocomplete="off">
 					<?php $bg_verses_lang_val = get_post_meta(get_the_ID(), 'bible_lang', 1); 
-						error_log( print_r($bg_verses_lang_val, true) );
+						// error_log( print_r($bg_verses_lang_val, true) );
 						foreach(get_bible_books() as $bible_book) {
 							echo "<option ";
 							if($bible_book['book_name'] == $bg_verses_lang_val) echo "selected";

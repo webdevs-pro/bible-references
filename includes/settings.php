@@ -22,7 +22,7 @@ function biblerefs_options_page() {
 	$biblerefs_page = 'biblerefs_page';				// Ссылка на предварительно созданную страницу для вывода текста Библии
 
 	$bg_verses_lang = 'biblerefs_verses_lang';			// Язык стихов из Библии во всплывающей подсказке
-    $bg_show_fn = 'biblerefs_show_fn';					// Отображать оригинальные номера стихов
+   //  $bg_show_fn = 'biblerefs_show_fn';					// Отображать оригинальные номера стихов
 
 	$bg_headers = 'biblerefs_headers';					// Подсвечивать ссылки в заголовках H1-H6
 	$bg_interpret = 'biblerefs_interpret';				// Включить ссылки на толкование Священного Писания
@@ -49,7 +49,7 @@ function biblerefs_options_page() {
     $biblerefs_ajaxurl = "biblerefs_ajaxurl";			// Внешний AJAX Proxy
 	$bg_content = 'biblerefs_content';					// Контейнер, внутри которого будут отображаться подсказки
 	$links_class = 'biblerefs_class';					// CSS класс для ссылок на Библию
-	$bg_refs_file = 'biblerefs_refs_file';				// Пользовательский файл цитат из Библии
+	// $bg_refs_file = 'biblerefs_refs_file';				// Пользовательский файл цитат из Библии
 	
 	$biblerefs_debug_name = 'biblerefs_debug';		// Включить запись в лог
 	
@@ -70,7 +70,7 @@ function biblerefs_options_page() {
     $biblerefs_page_val = get_option( $biblerefs_page );
 	
     $bg_verses_lang_val = get_option( $bg_verses_lang );
-    $bg_show_fn_val = get_option( $bg_show_fn );
+   //  $bg_show_fn_val = get_option( $bg_show_fn );
 
     $bg_headers_val = get_option( $bg_headers );
     $bg_interpret_val = get_option( $bg_interpret );
@@ -95,9 +95,9 @@ function biblerefs_options_page() {
 	$biblerefs_maxtime_val = (int) get_option($biblerefs_maxtime);
 
 	$biblerefs_ajaxurl_val = get_option($biblerefs_ajaxurl);
-    $bg_content_val = get_option( $bg_content );
+   //  $bg_content_val = get_option( $bg_content );
     $class_val = get_option( $links_class );
-    $bg_refs_file_val = get_option( $bg_refs_file );
+   //  $bg_refs_file_val = get_option( $bg_refs_file );
 	
     $biblerefs_debug_val = get_option( $biblerefs_debug_name );
 	
@@ -133,8 +133,8 @@ function biblerefs_options_page() {
 		$bg_verses_lang_val = sanitize_text_field(( isset( $_POST[$bg_verses_lang] ) && $_POST[$bg_verses_lang] ) ? $_POST[$bg_verses_lang] : '') ;
 		update_option( $bg_verses_lang, $bg_verses_lang_val );
 
-		$bg_show_fn_val = sanitize_text_field(( isset( $_POST[$bg_show_fn] ) && $_POST[$bg_show_fn] ) ? $_POST[$bg_show_fn] : '') ;
-		update_option( $bg_show_fn, $bg_show_fn_val );
+		// $bg_show_fn_val = sanitize_text_field(( isset( $_POST[$bg_show_fn] ) && $_POST[$bg_show_fn] ) ? $_POST[$bg_show_fn] : '') ;
+		// update_option( $bg_show_fn, $bg_show_fn_val );
 
 
 		$bg_headers_val = sanitize_text_field(( isset( $_POST[$bg_headers] ) && $_POST[$bg_headers] ) ? $_POST[$bg_headers] : '') ;
@@ -188,14 +188,14 @@ function biblerefs_options_page() {
 		$biblerefs_ajaxurl_val = esc_url(( isset( $_POST[$biblerefs_ajaxurl] ) && $_POST[$biblerefs_ajaxurl] ) ? $_POST[$biblerefs_ajaxurl] : '') ;
 		update_option( $biblerefs_ajaxurl, $biblerefs_ajaxurl_val );
 
-		$bg_content_val = sanitize_text_field(( isset( $_POST[$bg_content] ) && $_POST[$bg_content] ) ? $_POST[$bg_content] : '') ;
-		update_option( $bg_content, $bg_content_val );
+		// $bg_content_val = sanitize_text_field(( isset( $_POST[$bg_content] ) && $_POST[$bg_content] ) ? $_POST[$bg_content] : '') ;
+		// update_option( $bg_content, $bg_content_val );
 
 		$class_val = sanitize_html_class(( isset( $_POST[$links_class] ) && $_POST[$links_class] ) ? $_POST[$links_class] : '') ;
 		update_option( $links_class, $class_val );
 
-		$bg_refs_file_val = esc_url(( isset( $_POST[$bg_refs_file] ) && $_POST[$bg_refs_file] ) ? $_POST[$bg_refs_file] : '') ;
-		update_option( $bg_refs_file, $bg_refs_file_val );
+		// $bg_refs_file_val = esc_url(( isset( $_POST[$bg_refs_file] ) && $_POST[$bg_refs_file] ) ? $_POST[$bg_refs_file] : '') ;
+		// update_option( $bg_refs_file, $bg_refs_file_val );
 
  		$biblerefs_debug_val = sanitize_text_field(( isset( $_POST[$biblerefs_debug_name] ) && $_POST[$biblerefs_debug_name] ) ? $_POST[$biblerefs_debug_name] : '') ;
 		update_option( $biblerefs_debug_name, $biblerefs_debug_val );
@@ -331,14 +331,6 @@ function reading_off_checked() {
 			</td>
 		</tr>
 
-		<tr valign="top">
-			<th scope="row"><?php _e('Show original verse numbers', 'biblerefs' ); ?></th>
-			<td>
-				<input type="checkbox" id="bg_show_fn" name="<?php echo $bg_show_fn ?>" <?php if($bg_show_fn_val=="on") echo "checked" ?>  value="on"> <?php _e('<br><i>(Show the original verse numbers in parentheses after the verse numbers of Russian Synodal Translation in the tooltips and quotes.<br>Verses marked with asterisk * are absent in the original translation. * - always visible!)</i>', 'biblerefs' ); ?> <br />
-			</td>
-		</tr>
-
-
 
 		<tr valign="top">
 		<th scope="row"><?php _e('Highlight references in the headers H1...H6', 'biblerefs' ); ?></th>
@@ -444,22 +436,11 @@ function reading_off_checked() {
 	</td></tr>
 
 	<tr valign="top">
-	<th scope="row"><?php _e('Container, inside which will display tooltips', 'biblerefs' ); ?></th>
-	<td>
-	<input type="text" id="bg_content" name="<?php echo $bg_content ?>" size="20" value="<?php echo $bg_content_val ?>"><br />
-	</td></tr>
-
-	<tr valign="top">
 	<th scope="row"><?php _e('Reference links CSS class', 'biblerefs' ); ?></th>
 	<td>
 	<input type="text" id="links_class" name="<?php echo $links_class ?>" size="20" value="<?php echo $class_val ?>"><br />
 	</td></tr>
 
-	<tr valign="top">
-	<th scope="row"><?php _e('Custom file of Bible quotes', 'biblerefs' ); ?></th>
-	<td>
-	<input type="text" id="bg_refs_file" name="<?php echo $bg_refs_file ?>" size="60" value="<?php echo $bg_refs_file_val ?>"><br />
-	</td></tr>
 
 	<tr valign="top">
 	<th scope="row"><?php _e('Debug', 'biblerefs' ); ?></th>

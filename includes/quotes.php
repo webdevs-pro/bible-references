@@ -212,7 +212,7 @@ function biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $typ
 
 
 
-   $bg_show_fn = get_option( 'biblerefs_show_fn' );
+   // $bg_show_fn = get_option( 'biblerefs_show_fn' );
 
 	$shortTitle = $biblerefs_shortTitle[$book];
 	$verses = "";
@@ -230,7 +230,7 @@ function biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $typ
 		if ( $cv >= $cv1 && $cv <= $cv2) {
 			if (isset($json[$i]['stix_fn'])) {
 				$fn = $json[$i]['stix_fn'];
-				if ($fn != '*' && $bg_show_fn != 'on') $fn="";
+				// if ($fn != '*' && $bg_show_fn != 'on') $fn="";
 			} else {
 				$fn="";
 			}
