@@ -264,7 +264,7 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 						$chapter = preg_replace_callback ("/[-:,\.;]/", function ($match) {
 							static $prevDelimeter=',';
 							$mt = $match[0];
-							if ($mt == ',' && ($prevDelimeter == ',' || $prevDelimeter == ';')) $mt = ':';
+							if ($mt == ',' && ($prevDelimeter == ',' || $prevDelimeter == ';' || $prevDelimeter == '.')) $mt = ':';
 							$prevDelimeter = $mt;
 							return $mt;
 						}, $chapter);		
@@ -468,8 +468,8 @@ function bg_bibrefs_strip_space($txt) {
 *******************************************************************************/  
 function isWesternNotation ($ch, $chapters) {
 	global $bg_bibrefs_option;
-	if (preg_match("/^(\d{1,3}),/m", $ch)) {							// Если после первой цифры идет запятая 
-		if (preg_match("/[.\-]/u", $ch)) return true;				// и при этом выражение содержит точку или тире
+	if (preg_match("/^(\d{1,3}),/m", $ch)) {						// Если после первой цифры идет запятая 
+		if (preg_match("/[;\.\-]/u", $ch)) return true;				// и при этом выражение содержит точку с запятой, точку или тире
 		// Особый случай: два числа, разделенных запятой
 		if (preg_match("/^\d{1,3},\d{1,3}$/m", $ch)) {
 			$arr = explode(',', $ch);
@@ -477,8 +477,8 @@ function isWesternNotation ($ch, $chapters) {
 			if (intval ($arr[0]) >= intval ($arr[1]) ||		// Первая цифра больше или равна второй
 				intval ($arr[1]) > $chapters)				// Вторая цифра больше кол-ва глав в книге
 				return true;
-			if ($bg_bibrefs_option['sepc']) return true;	// Опция включена - западная нотация
 		}
+		if ($bg_bibrefs_option['sepc']) return true;	// Опция включена - западная нотация
 	}
 	return false;
 }

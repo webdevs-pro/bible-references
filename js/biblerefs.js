@@ -6,9 +6,6 @@ jQuery(document).ready(function($){
 	// open popup
 	$('span.bg_data_title').click(function(){
 
-
-
-
 		// get verses query string
 		verses_query_string = $(this).attr('data-title');
 		console.log(verses_query_string);
@@ -20,29 +17,12 @@ jQuery(document).ready(function($){
 		// print verses 
 		$('.bible_references_popup_verses').html(getBibleVerses(verses_query_string));
 
-
-
-
-		// var original_bible_lang = getQueryStringParameter(verses_query_string, 'lang');
-		// console.log(original_bible_lang);
-
-		// var new_verses_query_string = updateQueryStringParameter(verses_query_string, 'lang', 'syno');
-		// console.log(new_verses_query_string);
-
-		
-		// console.log(bg_bibrefs.bible_books);
-
-		// $.each( bg_bibrefs.bible_books, function( key, book ) {
-		// 	console.log(book.book_name);
-		// 	var new_verses_query_string = updateQueryStringParameter(verses_query_string, 'lang', book.book_name);
-		// 	$('.bible_references_popup_verses').html(getBibleVerses(new_verses_query_string));
-		// 	// alert();
-		// });
-
-
 	});
 
 
+
+
+	// select translation
 	$('#bible_books').on('change', function(e){
 		console.log($(this).val());
 		var new_verses_query_string = updateQueryStringParameter(verses_query_string, 'lang', $(this).val());
