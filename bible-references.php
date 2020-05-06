@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 0.5
+   Version: 0.6
    Author: Alex Ischenko
    Author URI: https://shofar-media.in.ua 
 	License:     GPL2
