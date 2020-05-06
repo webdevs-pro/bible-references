@@ -1,12 +1,12 @@
 <?php
 /*******************************************************************************
    Создание контента цитаты 
-   Вызывает bg_bibrefs_printVerses() - см. ниже
+   Вызывает biblerefs_printVerses() - см. ниже
 *******************************************************************************/  
-function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
-	global $bg_bibrefs_option;
-	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
-	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
+function biblerefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
+	global $biblerefs_option;
+	global $biblerefs_chapter, $biblerefs_ch, $biblerefs_psalm, $biblerefs_ps;
+	global $biblerefs_url, $biblerefs_bookTitle, $biblerefs_shortTitle, $biblerefs_bookFile;
 	$lang = include_books($lang);
 
 	// error_log( print_r($lang, true) );
@@ -18,11 +18,11 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
    чтение и преобразование файла книги
 *******************************************************************************/  
 	if (!$book) return "";
-	if (!$bg_bibrefs_bookFile[$book]) return "";
+	if (!$biblerefs_bookFile[$book]) return "";
 
 
 	// Имя файла книги
-	$book_file = 'bible/'.$bg_bibrefs_bookFile[$book];										
+	$book_file = 'bible/'.$biblerefs_bookFile[$book];										
 
 	// получаем файл
 	$upload_dir = wp_upload_dir();
@@ -35,12 +35,12 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 	$code = false;
 
 	// Попытка1. Если данные не получены попробуем применить file_get_contents()
-	if ($bg_bibrefs_option['fgc'] == 'on' && function_exists('file_get_contents')) {		
+	if ($biblerefs_option['fgc'] == 'on' && function_exists('file_get_contents')) {		
 		$code = file_get_contents($path);		
 	}
 
 	// Попытка 2. Если данные опять не получены попробуем применить fopen() 
-	if ($bg_bibrefs_option['fopen'] == 'on' && !$code) {									
+	if ($biblerefs_option['fopen'] == 'on' && !$code) {									
 		$ch=fopen($path, "r" );// Открываем файл для чтения
 		if($ch)
 		{
@@ -52,7 +52,7 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 	}
 
 	// Попытка3. Если установлен cURL
-	if ($bg_bibrefs_option['curl'] == 'on' && function_exists('curl_init') && !$code) {						
+	if ($biblerefs_option['curl'] == 'on' && function_exists('curl_init') && !$code) {						
 		$ch = curl_init($url);// создание нового ресурса cURL
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);// возврат результата передачи в качестве строки из curl_exec() вместо прямого вывода в браузер
 		$code = curl_exec($ch);// загрузка текста
@@ -133,7 +133,7 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 					}
 
 					// текст диапазона стихов и новая строка в конце для разделения
-					$verses = $verses.bg_bibrefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll).'<br>';
+					$verses = $verses.biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll).'<br>';
 					$chr = $ch1;
 					if ($sp == "") break;
 				}
@@ -174,7 +174,7 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 
 			
 			// получаем стихи (отдельно для каждого диапазона, напрриме - Пс. 1,1; 2,1-5; 3,1 - будет вызвано 3 раза для каждого диапазона: 1 - Пс.1,1  2 - Пс.2,1-5 ....)
-			$verses = $verses.bg_bibrefs_printVerses($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll);
+			$verses = $verses.biblerefs_printVerses($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll);
 			$chr = $ch2;
 		}
 		if ($sp == "") break;
@@ -186,17 +186,17 @@ function bg_bibrefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 	if (!$verses) return "";
 
 
-	$verses = bg_bibrefs_getTitle($book)."<br>".$verses;
+	$verses = biblerefs_getTitle($book)."<br>".$verses;
 
 	return $verses;
 }
 /*******************************************************************************
 	Формирование содержания цитаты
 *******************************************************************************/  
-function bg_bibrefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll='') {
-	global $bg_bibrefs_option;
-	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
-	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
+function biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll='') {
+	global $biblerefs_option;
+	global $biblerefs_chapter, $biblerefs_ch, $biblerefs_psalm, $biblerefs_ps;
+	global $biblerefs_url, $biblerefs_bookTitle, $biblerefs_shortTitle, $biblerefs_bookFile;
 
 	// $json - книга 
 	// $book - имя книги (Ps, Lk, Mt) 
@@ -212,9 +212,9 @@ function bg_bibrefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $ty
 
 
 
-   $bg_show_fn = get_option( 'bg_bibrefs_show_fn' );
+   $bg_show_fn = get_option( 'biblerefs_show_fn' );
 
-	$shortTitle = $bg_bibrefs_shortTitle[$book];
+	$shortTitle = $biblerefs_shortTitle[$book];
 	$verses = "";
 	$cv1 = $ch1 *1000 + $vr1;
 	$cv2 = $ch2 *1000 + $vr2;
@@ -251,7 +251,7 @@ function bg_bibrefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $ty
 			if ($txt) {
 				if ($json[$i]['stix'] == 0) $txt = $pointer.$txt;
 				// зачем-то первые стихи псалмов подсвечены жирным
-				//else if (isset($bg_bibrefs_psalm) && $book == 'Ps' && $json[$i]['order'] == 1) $txt = $pointer."<strong>".$txt."</strong>";
+				//else if (isset($biblerefs_psalm) && $book == 'Ps' && $json[$i]['order'] == 1) $txt = $pointer."<strong>".$txt."</strong>";
 				else  $txt = $pointer.$txt;
 
 				$verses = $verses.$txt.'<br>'; // каждый стих с новой строки

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: bg_bibrefs\n"
+"Project-Id-Version: biblerefs\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bg-biblie-"
 "references\n"
 "POT-Creation-Date: 2017-11-13 14:09+0300\n"
@@ -20,115 +20,115 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: bg_bibrefs.php:263 bg_bibrefs.php:544
+#: biblerefs.php:263 biblerefs.php:544
 msgid "Bible References"
 msgstr "Посилання на Біблію"
 
-#: bg_bibrefs.php:461 bg_bibrefs.php:853 bg_bibrefs.php:875
+#: biblerefs.php:461 biblerefs.php:853 biblerefs.php:875
 msgid "Search"
 msgstr "Шукати"
 
-#: bg_bibrefs.php:526 includes/references.php:272
+#: biblerefs.php:526 includes/references.php:272
 msgid "Expand"
 msgstr "Розгорнути"
 
-#: bg_bibrefs.php:526 includes/references.php:272
+#: biblerefs.php:526 includes/references.php:272
 msgid "Hide"
 msgstr "Приховати"
 
-#: bg_bibrefs.php:549 includes/settings.php:450
+#: biblerefs.php:549 includes/settings.php:450
 msgid "Language of references and tooltips"
 msgstr "Мова посилань і підказок"
 
-#: bg_bibrefs.php:552 bg_bibrefs.php:945 includes/settings.php:453
+#: biblerefs.php:552 biblerefs.php:945 includes/settings.php:453
 msgid "Default"
 msgstr "За замовчуванням"
 
-#: bg_bibrefs.php:567
+#: biblerefs.php:567
 msgid "Ban to highlight references"
 msgstr "Заборона підсвічування посилань"
 
-#: bg_bibrefs.php:570
+#: biblerefs.php:570
 msgid "Off"
 msgstr "Відкл."
 
-#: bg_bibrefs.php:571
+#: biblerefs.php:571
 msgid "On"
 msgstr "Вкл."
 
-#: bg_bibrefs.php:609
+#: biblerefs.php:609
 msgid "Bible References Widget"
 msgstr "Віджет \"Посилання на Біблію\""
 
-#: bg_bibrefs.php:610
+#: biblerefs.php:610
 msgid "Create reference to the Bible"
 msgstr "Створення посилання на Біблію"
 
-#: bg_bibrefs.php:628 bg_bibrefs.php:802 bg_bibrefs.php:924
+#: biblerefs.php:628 biblerefs.php:802 biblerefs.php:924
 msgid "Title:"
 msgstr "Назва:"
 
-#: bg_bibrefs.php:633 bg_bibrefs.php:807
+#: biblerefs.php:633 biblerefs.php:807
 msgid "Permalink to page:"
 msgstr "Постійне посилання на сторінку:"
 
-#: bg_bibrefs.php:640 bg_bibrefs.php:814
+#: biblerefs.php:640 biblerefs.php:814
 msgid "Default language"
 msgstr "Мова за замовчуванням"
 
-#: bg_bibrefs.php:646 bg_bibrefs.php:820
+#: biblerefs.php:646 biblerefs.php:820
 msgid "Save selected options (on user side only)"
 msgstr "Зберігати вибрані параметри (тільки на стороні користувача)"
 
-#: bg_bibrefs.php:677
+#: biblerefs.php:677
 msgid "Book"
 msgstr "Книга"
 
-#: bg_bibrefs.php:688
+#: biblerefs.php:688
 msgid "Chapter"
 msgstr "Розділ"
 
-#: bg_bibrefs.php:689
+#: biblerefs.php:689
 msgid "Chapters and verses"
 msgstr "Розділи і вірші"
 
-#: bg_bibrefs.php:692 bg_bibrefs.php:856
+#: biblerefs.php:692 biblerefs.php:856
 msgid "Language"
 msgstr "Мова"
 
-#: bg_bibrefs.php:711
+#: biblerefs.php:711
 msgid "Go"
 msgstr "Перейти"
 
-#: bg_bibrefs.php:783
+#: biblerefs.php:783
 msgid "Bible Search Widget"
 msgstr "Віджет \"Пошук в Біблії\""
 
-#: bg_bibrefs.php:784
+#: biblerefs.php:784
 msgid "Finds words or phrases in the Bible"
 msgstr "Пошук слова або фрази в Біблії"
 
-#: bg_bibrefs.php:907
+#: biblerefs.php:907
 msgid "Bible Quote Widget"
 msgstr "Віджет \"Цитата з Біблії\""
 
-#: bg_bibrefs.php:908
+#: biblerefs.php:908
 msgid "Display Random Quote or Day's Quote from the Bible"
 msgstr "Показує на экране Випадкову Цитату або Цитату Дня з Біблії"
 
-#: bg_bibrefs.php:929
+#: biblerefs.php:929
 msgid "Type of quote:"
 msgstr "Вид цитати:"
 
-#: bg_bibrefs.php:932
+#: biblerefs.php:932
 msgid "Day's Quote"
 msgstr "Цитата Дня"
 
-#: bg_bibrefs.php:935
+#: biblerefs.php:935
 msgid "Random Quote"
 msgstr "Випадкова Цитата"
 
-#: bg_bibrefs.php:940
+#: biblerefs.php:940
 msgid "Language of the Bible:"
 msgstr "Мова Біблії:"
 

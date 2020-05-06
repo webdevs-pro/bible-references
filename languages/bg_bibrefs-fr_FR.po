@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: bg_bibrefs\n"
+"Project-Id-Version: biblerefs\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bg-biblie-"
 "references\n"
 "POT-Creation-Date: 2019-08-16 21:35+0300\n"
@@ -19,115 +19,115 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: bg_bibrefs.php:264 bg_bibrefs.php:545
+#: biblerefs.php:264 biblerefs.php:545
 msgid "Bible References"
 msgstr "Références bibliques"
 
-#: bg_bibrefs.php:462 bg_bibrefs.php:854 bg_bibrefs.php:876
+#: biblerefs.php:462 biblerefs.php:854 biblerefs.php:876
 msgid "Search"
 msgstr "Chercher"
 
-#: bg_bibrefs.php:527 includes/references.php:380
+#: biblerefs.php:527 includes/references.php:380
 msgid "Expand"
 msgstr "Développer"
 
-#: bg_bibrefs.php:527 includes/references.php:380
+#: biblerefs.php:527 includes/references.php:380
 msgid "Hide"
 msgstr "Cacher"
 
-#: bg_bibrefs.php:550 includes/settings.php:428
+#: biblerefs.php:550 includes/settings.php:428
 msgid "Language of references and tooltips"
 msgstr "Langue des références et des info-bulles"
 
-#: bg_bibrefs.php:553 bg_bibrefs.php:946 includes/settings.php:431
+#: biblerefs.php:553 biblerefs.php:946 includes/settings.php:431
 msgid "Default"
 msgstr "Défaut"
 
-#: bg_bibrefs.php:568
+#: biblerefs.php:568
 msgid "Ban to highlight references"
 msgstr "Interdiction de mettre en surbrillance les références"
 
-#: bg_bibrefs.php:571
+#: biblerefs.php:571
 msgid "Off"
 msgstr "Ouvert"
 
-#: bg_bibrefs.php:572
+#: biblerefs.php:572
 msgid "On"
 msgstr "Fermer"
 
-#: bg_bibrefs.php:610
+#: biblerefs.php:610
 msgid "Bible References Widget"
 msgstr "Widget de références bibliques"
 
-#: bg_bibrefs.php:611
+#: biblerefs.php:611
 msgid "Create reference to the Bible"
 msgstr "Créer une référence à la Bible"
 
-#: bg_bibrefs.php:629 bg_bibrefs.php:803 bg_bibrefs.php:925
+#: biblerefs.php:629 biblerefs.php:803 biblerefs.php:925
 msgid "Title:"
 msgstr "Titre :"
 
-#: bg_bibrefs.php:634 bg_bibrefs.php:808
+#: biblerefs.php:634 biblerefs.php:808
 msgid "Permalink to page:"
 msgstr "Lien permanent vers la page :"
 
-#: bg_bibrefs.php:641 bg_bibrefs.php:815
+#: biblerefs.php:641 biblerefs.php:815
 msgid "Default language"
 msgstr "Langage par défaut"
 
-#: bg_bibrefs.php:647 bg_bibrefs.php:821
+#: biblerefs.php:647 biblerefs.php:821
 msgid "Save selected options (on user side only)"
 msgstr "Enregistrer les options sélectionnées (côté utilisateur uniquement)"
 
-#: bg_bibrefs.php:678
+#: biblerefs.php:678
 msgid "Book"
 msgstr "Livre"
 
-#: bg_bibrefs.php:689
+#: biblerefs.php:689
 msgid "Chapter"
 msgstr "Chapitre"
 
-#: bg_bibrefs.php:690
+#: biblerefs.php:690
 msgid "Chapters and verses"
 msgstr "Chapitres et versets"
 
-#: bg_bibrefs.php:693 bg_bibrefs.php:857
+#: biblerefs.php:693 biblerefs.php:857
 msgid "Language"
 msgstr "Langue"
 
-#: bg_bibrefs.php:712
+#: biblerefs.php:712
 msgid "Go"
 msgstr "Aller"
 
-#: bg_bibrefs.php:784
+#: biblerefs.php:784
 msgid "Bible Search Widget"
 msgstr "Widget de recherche biblique"
 
-#: bg_bibrefs.php:785
+#: biblerefs.php:785
 msgid "Finds words or phrases in the Bible"
 msgstr "Trouver des mots ou des phrases dans la Bible"
 
-#: bg_bibrefs.php:908
+#: biblerefs.php:908
 msgid "Bible Quote Widget"
 msgstr "Widget de citation biblique"
 
-#: bg_bibrefs.php:909
+#: biblerefs.php:909
 msgid "Display Random Quote or Day's Quote from the Bible"
 msgstr "Afficher une citation aléatoire ou du jour de la Bible"
 
-#: bg_bibrefs.php:930
+#: biblerefs.php:930
 msgid "Type of quote:"
 msgstr "Type de citation :"
 
-#: bg_bibrefs.php:933
+#: biblerefs.php:933
 msgid "Day's Quote"
 msgstr "Citation du jour"
 
-#: bg_bibrefs.php:936
+#: biblerefs.php:936
 msgid "Random Quote"
 msgstr "Citation aléatoire"
 
-#: bg_bibrefs.php:941
+#: biblerefs.php:941
 msgid "Language of the Bible:"
 msgstr "Langue de la Bible :"
 

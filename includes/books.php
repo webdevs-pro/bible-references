@@ -39,7 +39,7 @@ if(!class_exists('WP_List_Table')){
  * 
  * Our theme for this list table is going to be movies.
  */
-class bg_bibrefs_Bible_List_Table extends WP_List_Table {
+class biblerefs_Bible_List_Table extends WP_List_Table {
     /** ************************************************************************
      * REQUIRED. Set up a constructor that references the parent constructor. We 
      * use the parent reference to set some default configs.
@@ -49,8 +49,8 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
                 
         //Set parent defaults
         parent::__construct( array(
-            'singular'  => 'bg_bibrefs_bible_book',		//singular name of the listed records
-            'plural'    => 'bg_bibrefs_bible_books',	//plural name of the listed records
+            'singular'  => 'biblerefs_bible_book',		//singular name of the listed records
+            'plural'    => 'biblerefs_bible_books',	//plural name of the listed records
             'ajax'      => false						//does this table support ajax?
         ) );
         
@@ -112,11 +112,11 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
         //Build row actions
 		if ($item['status']) {
 			$actions = array(
-				 'delete' => sprintf('<a href="?page=%1$s&tab=%2$s&action=%3$s&bg_bibrefs_bible_book[0]=%4$s">%5$s</a>',$_REQUEST['page'],$_REQUEST['tab'],'delete',$item['filename'],__('Delete', 'bg_bibrefs'))
+				 'delete' => sprintf('<a href="?page=%1$s&tab=%2$s&action=%3$s&biblerefs_bible_book[0]=%4$s">%5$s</a>',$_REQUEST['page'],$_REQUEST['tab'],'delete',$item['filename'],__('Delete', 'biblerefs'))
 			);
 		} else {
 			$actions = array(
-				 'add' => sprintf('<a href="?page=%1$s&tab=%2$s&action=%3$s&bg_bibrefs_bible_book[0]=%4$s">%5$s</a>',$_REQUEST['page'],$_REQUEST['tab'],'add',$item['filename'],__('Add', 'bg_bibrefs'))
+				 'add' => sprintf('<a href="?page=%1$s&tab=%2$s&action=%3$s&biblerefs_bible_book[0]=%4$s">%5$s</a>',$_REQUEST['page'],$_REQUEST['tab'],'add',$item['filename'],__('Add', 'biblerefs'))
 			);
 		}
         
@@ -141,7 +141,7 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
     function column_cb($item){
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("bg_bibrefs_bible_book")
+            /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("biblerefs_bible_book")
             /*$2%s*/ $item['filename']          //The value of the checkbox should be the record's filename
         );
     }
@@ -163,10 +163,10 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
     function get_columns(){
         $columns = array(
             'cb'		=> '<input type="checkbox" />', //Render a checkbox instead of text
-			'filename'	=>__('Filename', 'bg_bibrefs'),
-			'name'		=>__('Name', 'bg_bibrefs'),
-			'about'		=>__('About', 'bg_bibrefs'),
-			'status'	=>__('Status', 'bg_bibrefs')
+			'filename'	=>__('Filename', 'biblerefs'),
+			'name'		=>__('Name', 'biblerefs'),
+			'about'		=>__('About', 'biblerefs'),
+			'status'	=>__('Status', 'biblerefs')
         );
         return $columns;
     }
@@ -188,8 +188,8 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
      **************************************************************************/
     function get_bulk_actions() {
         $actions = array(
-            'add'    => __('Add', 'bg_bibrefs'),
-            'delete' => __('Delete', 'bg_bibrefs')
+            'add'    => __('Add', 'biblerefs'),
+            'delete' => __('Delete', 'biblerefs')
         );
         return $actions;
     }
@@ -206,14 +206,14 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
         
       //Detect when a bulk action is being triggered...
         if( 'delete'===$this->current_action() ) {
-			if( isset ($_GET['bg_bibrefs_bible_book'])) {
-				$datafile = $_GET['bg_bibrefs_bible_book'];
-				foreach($datafile as $book) bg_bibrefs_removeFolder($book);
+			if( isset ($_GET['biblerefs_bible_book'])) {
+				$datafile = $_GET['biblerefs_bible_book'];
+				foreach($datafile as $book) biblerefs_removeFolder($book);
 			}
         } else if( 'add'===$this->current_action() ) {
-			if( isset ($_GET['bg_bibrefs_bible_book'])) {
-				$datafile = $_GET['bg_bibrefs_bible_book'];
-				foreach($datafile as $book) bg_bibrefs_addFolder($book);
+			if( isset ($_GET['biblerefs_bible_book'])) {
+				$datafile = $_GET['biblerefs_bible_book'];
+				foreach($datafile as $book) biblerefs_addFolder($book);
 			}
 		}
     }
@@ -277,7 +277,7 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
          * be able to use your precisely-queried data immediately.
          */
 
-        // $xml = @file_get_contents(BG_BIBREFS_XML_SOURCE_URL);
+        // $xml = @file_get_contents(BIBREFS_XML_SOURCE_URL);
 
         $xml = @file_get_contents('https://raw.githubusercontent.com/' . GITHUB_BOOKS_REPOSITORY . '/master/filelist.xml');
 
@@ -285,7 +285,7 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
 			$files = json_decode(json_encode((array)simplexml_load_string($xml)),1);
 			$file = $files['file'];
 			$id=0;
-			$folders = bg_bibrefs_getFolders();
+			$folders = biblerefs_getFolders();
 			foreach ($file as $f){
 				$d['filename'] = $f['filename'];
 				$subfolder = basename($f['filename'], ".zip");
@@ -295,7 +295,7 @@ class bg_bibrefs_Bible_List_Table extends WP_List_Table {
 
 				foreach ($folders as $dir) {
 					if ($dir === $subfolder) {
-						$d['status'] = __('uploaded', 'bg_bibrefs');
+						$d['status'] = __('uploaded', 'biblerefs');
 						break;
 					}
 				}

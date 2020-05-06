@@ -3,30 +3,14 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references with hyperlinks to the Bible text and interpretation by the Holy Fathers.
-   Version: 0.6.2
+   Version: 0.7
    Author: Alex Ischenko
    Author URI: https://shofar-media.in.ua 
 	License:     GPL2
-	Text Domain: bibrefs
+	Text Domain: biblerefs
 	Domain Path: /languages
 */
 
-/*  Copyright 2013-2020  Vadim Bogaiskov  (email: vadim.bogaiskov@gmail.com)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 /*****************************************************************************************
 	Блок загрузки плагина
@@ -39,7 +23,7 @@ if ( !defined('ABSPATH') ) {
 }
 
 if( ! function_exists('get_plugin_data') ) require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-define('BG_BIBREFS_VERSION', get_plugin_data( __FILE__ )['Version']);
+define('BIBREFS_VERSION', get_plugin_data( __FILE__ )['Version']);
 
 define('GITHUB_BOOKS_REPOSITORY', "webdevs-pro/bible-books"); // github user/repository
 define('BIBREFS_DIR_NAME', plugin_basename(__FILE__));
@@ -48,12 +32,12 @@ define('BIBREFS_DIR_NAME', plugin_basename(__FILE__));
 $upload_dir = wp_upload_dir();
 define('BIBREFS_UPLOAD_DIR', $upload_dir['basedir']);
 
-$bg_bibrefs_start_time = microtime(true);
+$biblerefs_start_time = microtime(true);
 
 
 // Таблица стилей для плагина
 function bg_enqueue_frontend_styles () {
-	wp_enqueue_style( "bg_bibrefs_styles", plugins_url( '/css/styles.css', plugin_basename(__FILE__) ), array() , BG_BIBREFS_VERSION  );
+	wp_enqueue_style( "biblerefs_styles", plugins_url( '/css/styles.css', plugin_basename(__FILE__) ), array() , BIBREFS_VERSION  );
 }
 add_action( 'wp_enqueue_scripts' , 'bg_enqueue_frontend_styles' );
 add_action( 'admin_enqueue_scripts' , 'bg_enqueue_frontend_styles' );
@@ -61,18 +45,18 @@ add_action( 'admin_enqueue_scripts' , 'bg_enqueue_frontend_styles' );
 // JS скрипт 
 function bg_enqueue_frontend_scripts () {
 
-	$content=get_option( "bg_bibrefs_content" );
-	$ajaxurl = trim(get_option( 'bg_bibrefs_ajaxurl' ));
+	$content=get_option( "biblerefs_content" );
+	$ajaxurl = trim(get_option( 'biblerefs_ajaxurl' ));
 
 
 
 	// error_log( print_r($bible_books, true) );
 	
 	if (!$ajaxurl) $ajaxurl=admin_url('admin-ajax.php');
-	wp_enqueue_script( 'bg_bibrefs_proc', plugins_url( 'js/biblerefs.js', __FILE__ ), false, BG_BIBREFS_VERSION, true );
+	wp_enqueue_script( 'biblerefs_proc', plugins_url( 'js/biblerefs.js', __FILE__ ), false, BIBREFS_VERSION, true );
 	wp_localize_script( 
-		'bg_bibrefs_proc', 
-		'bg_bibrefs', array( 
+		'biblerefs_proc', 
+		'biblerefs', array( 
 			'ajaxurl' => $ajaxurl, 
 			'content' => $content, 
 			'bible_books' => get_bible_books()
@@ -84,9 +68,9 @@ if ( !is_admin() ) {
 }
 
 // Загрузка интернационализации
-add_action( 'plugins_loaded', 'bg_bibrefs_load_textdomain' );
-function bg_bibrefs_load_textdomain() {
-  load_plugin_textdomain( 'bg_bibrefs', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
+add_action( 'plugins_loaded', 'biblerefs_load_textdomain' );
+function biblerefs_load_textdomain() {
+  load_plugin_textdomain( 'biblerefs', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
 }
 
 // Подключаем дополнительные модули
@@ -97,29 +81,29 @@ include_once('includes/quotes.php');
  
 if ( defined('ABSPATH') && defined('WPINC') ) {
 // Регистрируем крючок для обработки контента при его загрузке
-	add_filter( 'the_content', 'bg_bibrefs' );
+	add_filter( 'the_content', 'biblerefs' );
 
 // Регистрируем крючок для добавления меню администратора
-	add_action('admin_menu', 'bg_bibrefs_add_pages');
+	add_action('admin_menu', 'biblerefs_add_pages');
 	
 // Регистрируем крючок на удаление плагина
 	if (function_exists('register_uninstall_hook')) {
-		register_uninstall_hook(__FILE__, 'bg_bibrefs_deinstall');
+		register_uninstall_hook(__FILE__, 'biblerefs_deinstall');
 	}
 
 
 // Инициализируем значения параметров настройки плагина по умолчанию
 
-	bg_bibrefs_options_ini ();	
-	bg_bibrefs_get_options ();
+	biblerefs_options_ini ();	
+	biblerefs_get_options ();
 }
 
 // Функция, исполняемая при активации плагина.
-// function  bg_bibrefs_activate() {
+// function  biblerefs_activate() {
 // 	$folders=array("ru");
 // 	$bible_lang = get_bloginfo('language');	
 // 	$bible_lang = substr($bible_lang,0, 2);
-// 	$xml = @file_get_contents(BG_BIBREFS_SOURCE_URL."filelist.xml");
+// 	$xml = @file_get_contents(BIBREFS_SOURCE_URL."filelist.xml");
 // 	if ($xml) {
 // 		$files = json_decode(json_encode((array)simplexml_load_string($xml)),1);
 // 		$file = $files['file'];
@@ -132,34 +116,34 @@ if ( defined('ABSPATH') && defined('WPINC') ) {
 // 		}
 // 	}
 // 	foreach ($folders as $book) {
-// 		bg_bibrefs_addFolder($book.'.zip');
+// 		biblerefs_addFolder($book.'.zip');
 // 	}
-// 	update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
+// 	update_option( 'biblerefs_version', BIBREFS_VERSION );
 // }
 
-// register_activation_hook( __FILE__, 'bg_bibrefs_activate' );
+// register_activation_hook( __FILE__, 'biblerefs_activate' );
 
 // // Проверяем текущую версию плагина и обновляем папки с книгами Библии
-// function bg_bibrefs_upload_folders() {
-// 	$version = get_option('bg_bibrefs_version');
+// function biblerefs_upload_folders() {
+// 	$version = get_option('biblerefs_version');
 // 	if (!$version) {
 // 		$folders=array('be','cu','en','ru','uk');
-// 		update_option( 'bg_bibrefs_folders', $folders );
+// 		update_option( 'biblerefs_folders', $folders );
 // 	}
-// 	if ( version_compare( $version, BG_BIBREFS_VERSION, '<' ) ) {
-// 		$folders=get_option('bg_bibrefs_folders');
+// 	if ( version_compare( $version, BIBREFS_VERSION, '<' ) ) {
+// 		$folders=get_option('biblerefs_folders');
 // 		if (!$folders) $folders = array("ru");			// Если нет папок, то по умолчанию русский язык
-// 		foreach ($folders as $book) bg_bibrefs_addFolder($book.'.zip');
+// 		foreach ($folders as $book) biblerefs_addFolder($book.'.zip');
 
-// 		update_option( 'bg_bibrefs_version', BG_BIBREFS_VERSION );
+// 		update_option( 'biblerefs_version', BIBREFS_VERSION );
 // 	}
 // }
-// add_action( 'plugins_loaded', 'bg_bibrefs_upload_folders' );
+// add_action( 'plugins_loaded', 'biblerefs_upload_folders' );
 
 /** ************************************************************************
  * Добавить папку с Библией на сайт
  **************************************************************************/
-function bg_bibrefs_addFolder($book) {
+function biblerefs_addFolder($book) {
 
 	$source_url = 'https://github.com/' . GITHUB_BOOKS_REPOSITORY . '/raw/master/' . $book;
 	error_log( print_r($source_url, true) );
@@ -181,29 +165,29 @@ function bg_bibrefs_addFolder($book) {
 			$zip->close(); 
 			unlink ( $local_url );
 		}		
-		$folders = bg_bibrefs_getFolders();
-		// update_option( 'bg_bibrefs_folders', $folders );
+		$folders = biblerefs_getFolders();
+		// update_option( 'biblerefs_folders', $folders );
 	}
 }
 /** ************************************************************************
  * Удалить папку с Библией с сайта
  **************************************************************************/
-function bg_bibrefs_removeFolder($book) {
+function biblerefs_removeFolder($book) {
 	$path = BIBREFS_UPLOAD_DIR.'/bible/';
 	$dir=$path.basename($book, ".zip"); 
 	if ($objs = glob($dir."/*")) {
 		foreach($objs as $obj) {
-			is_dir($obj) ? bg_bibrefs_removeFolder($obj) : unlink($obj);
+			is_dir($obj) ? biblerefs_removeFolder($obj) : unlink($obj);
 		}
 	}
 	@rmdir($dir);
-	$folders = bg_bibrefs_getFolders();
-	// update_option( 'bg_bibrefs_folders', $folders );
+	$folders = biblerefs_getFolders();
+	// update_option( 'biblerefs_folders', $folders );
 }
 /** ************************************************************************
  * Получить список папок с Библией на сайте
  **************************************************************************/
-function bg_bibrefs_getFolders() {
+function biblerefs_getFolders() {
 	$folders = array();
 	$path = BIBREFS_UPLOAD_DIR.'/bible/';
 	$id = 0;
@@ -231,7 +215,7 @@ function set_bible_lang() {
 	if (function_exists ( 'bg_custom_lang' )) $bible_lang = bg_custom_lang();	// Если определена внешняя функция определения языка, то используем ее (2)
 	$bible_lang = substr($bible_lang, 0, 2);
 
-	$bg_verses_lang_val = get_option( 'bg_bibrefs_verses_lang' );
+	$bg_verses_lang_val = get_option( 'biblerefs_verses_lang' );
 	if ($bg_verses_lang_val) 													// Если задан язык Библии в настройках плагина,
 		$bible_lang = $bg_verses_lang_val;										// то язык из настроек (3)
 	
@@ -254,9 +238,9 @@ function set_bible_lang() {
 	
 ******************************************************************************************/
 function include_books($lang) {
-	global $bg_bibrefs_lang_name, $bg_bibrefs_book_letters, $bg_bibrefs_book_length;
-	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
-	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
+	global $biblerefs_lang_name, $biblerefs_book_letters, $biblerefs_book_length;
+	global $biblerefs_chapter, $biblerefs_ch, $biblerefs_psalm, $biblerefs_ps;
+	global $biblerefs_url, $biblerefs_bookTitle, $biblerefs_shortTitle, $biblerefs_bookFile;
 	
 
 	$file_books = BIBREFS_UPLOAD_DIR.'/bible/'.$lang.'/books.php';
@@ -274,15 +258,15 @@ function include_books($lang) {
 ******************************************************************************************/
  
 // Функция обработки ссылок на Библию 
-function bg_bibrefs($content) {
-	$content = bg_bibrefs_bible_proc($content);
+function biblerefs($content) {
+	$content = biblerefs_bible_proc($content);
 	return $content;
 }
 
 // Функция действия перед крючком добавления меню
-function bg_bibrefs_add_pages() {
+function biblerefs_add_pages() {
     // Добавим новое подменю в раздел Параметры 
-    add_options_page( __('Bible References', 'bg_bibrefs' ), __('Bible References', 'bg_bibrefs' ), 'manage_options', __FILE__, 'bg_bibrefs_options_page');
+    add_options_page( __('Bible References', 'biblerefs' ), __('Bible References', 'biblerefs' ), 'manage_options', __FILE__, 'biblerefs_options_page');
 }
 
 
@@ -290,15 +274,15 @@ function bg_bibrefs_add_pages() {
 	Формирует список книг Библии на заданном языке в виде объекта
 	
 ******************************************************************************************/
-function bg_bibrefs_booklist ($lang) {
-	global $bg_bibrefs_bookTitle;
+function biblerefs_booklist ($lang) {
+	global $biblerefs_bookTitle;
 	$lang = include_books($lang);
-	$num_books = count($bg_bibrefs_bookTitle);
-	$books = array_keys ( $bg_bibrefs_bookTitle);
+	$num_books = count($biblerefs_bookTitle);
+	$books = array_keys ( $biblerefs_bookTitle);
 	$booklist = array();
 	for ($i = 0; $i< $num_books; $i++) { 
 		$booklist[$i]['value']=$books[$i];
-		$booklist[$i]['name']=$bg_bibrefs_bookTitle[$books[$i]];
+		$booklist[$i]['name']=$biblerefs_bookTitle[$books[$i]];
 	} 
 	echo json_encode ($booklist);
 }
@@ -315,7 +299,7 @@ function get_bible_books() {
 				include ($path.$dir.'/books.php');
 				$bible_books[] = array(
 					'book_name' => $dir,
-					'book_title' => $bg_bibrefs_lang_name
+					'book_title' => $biblerefs_lang_name
 				);
 			}
 		}
@@ -327,12 +311,12 @@ function get_bible_books() {
 	Генератор ответа AJAX
 	
 ******************************************************************************************/
-add_action ('wp_ajax_bg_bibrefs', 'bg_bibrefs_callback');
-add_action ('wp_ajax_nopriv_bg_bibrefs', 'bg_bibrefs_callback');
+add_action ('wp_ajax_biblerefs', 'biblerefs_callback');
+add_action ('wp_ajax_nopriv_biblerefs', 'biblerefs_callback');
 
-function bg_bibrefs_callback() {
+function biblerefs_callback() {
 	
-	if ( isset($_GET["blang"]) ) bg_bibrefs_booklist ($_GET["blang"]);		
+	if ( isset($_GET["blang"]) ) biblerefs_booklist ($_GET["blang"]);		
 	else {
 		$title = $_GET["title"];
 		$chapter = $_GET["chapter"];
@@ -345,7 +329,7 @@ function bg_bibrefs_callback() {
 		// error_log( print_r($chapter, true) );
 		// error_log( print_r($lang, true) );
 
-		$verses = bg_bibrefs_getQuotes($title, $chapter, $type, $lang); // получаем содержимое
+		$verses = biblerefs_getQuotes($title, $chapter, $type, $lang); // получаем содержимое
 		if ($verses) {
 			echo $verses;
 		} 
@@ -361,18 +345,18 @@ function get_plugin_version() {
 	Добавляем блок в основную колонку на страницах постов и пост. страниц 
 	
 ******************************************************************************************/
-add_action('admin_init', 'bg_bibrefs_extra_fields', 1);
+add_action('admin_init', 'biblerefs_extra_fields', 1);
 // Создание блока
-function bg_bibrefs_extra_fields() {
-    add_meta_box( 'bg_bibrefs_extra_fields', __('Bible References', 'bg_bibrefs'), 'bg_bibrefs_extra_fields_box_func', 'post', 'normal', 'high'  );
+function biblerefs_extra_fields() {
+    add_meta_box( 'biblerefs_extra_fields', __('Bible References', 'biblerefs'), 'biblerefs_extra_fields_box_func', 'post', 'normal', 'high'  );
 }
 // Добавление полей
-function bg_bibrefs_extra_fields_box_func( $post ){
+function biblerefs_extra_fields_box_func( $post ){
 ?>
-	<label for="bg_verses_lang"><?php _e('Language of references and tooltips', 'bg_bibrefs' ); ?></label>
-		<select id="bg_verses_lang" name="bg_bibrefs_extra[bible_lang]">
+	<label for="bg_verses_lang"><?php _e('Language of references and tooltips', 'biblerefs' ); ?></label>
+		<select id="bg_verses_lang" name="biblerefs_extra[bible_lang]">
 		<?php $bg_verses_lang_val = get_post_meta($post->ID, 'bible_lang', 1); ?>
-			<option <?php if($bg_verses_lang_val=="") echo "selected" ?> value=""><?php _e('Default', 'bg_bibrefs' ); ?></option>
+			<option <?php if($bg_verses_lang_val=="") echo "selected" ?> value=""><?php _e('Default', 'biblerefs' ); ?></option>
 			<?php 
 			$path = BIBREFS_UPLOAD_DIR.'/bible/';
 			if (is_dir($path) && $handle = opendir($path)) {
@@ -381,7 +365,7 @@ function bg_bibrefs_extra_fields_box_func( $post ){
 						include ($path.$dir.'/books.php');
 						echo "<option ";
 						if($bg_verses_lang_val==$dir) echo "selected";
-						echo " value=".$dir.">".$bg_bibrefs_lang_name."</option>\n";
+						echo " value=".$dir.">".$biblerefs_lang_name."</option>\n";
 					}
 				}
 				closedir($handle); 
@@ -389,31 +373,31 @@ function bg_bibrefs_extra_fields_box_func( $post ){
 			?>
 		</select>
 	&nbsp;
-	<label for="bg_norefs"><?php _e('Ban to highlight references', 'bg_bibrefs' ); ?></label>
-		<select id="bg_norefs" name="bg_bibrefs_extra[norefs]">
+	<label for="bg_norefs"><?php _e('Ban to highlight references', 'biblerefs' ); ?></label>
+		<select id="bg_norefs" name="biblerefs_extra[norefs]">
 		<?php $bg_norefs_val = get_post_meta($post->ID, 'norefs', 1); ?>
-			<option <?php if($bg_norefs_val=="") echo "selected" ?> value=""><?php _e('Off', 'bg_bibrefs' ); ?></option>
-			<option <?php if($bg_norefs_val) echo "selected" ?> value="on"><?php _e('On', 'bg_bibrefs' ); ?></option>
+			<option <?php if($bg_norefs_val=="") echo "selected" ?> value=""><?php _e('Off', 'biblerefs' ); ?></option>
+			<option <?php if($bg_norefs_val) echo "selected" ?> value="on"><?php _e('On', 'biblerefs' ); ?></option>
 		</select>
 	
-    <input type="hidden" name="bg_bibrefs_extra_fields_nonce" value="<?php echo wp_create_nonce(__FILE__); ?>" />
+    <input type="hidden" name="biblerefs_extra_fields_nonce" value="<?php echo wp_create_nonce(__FILE__); ?>" />
 <?php
 }
 // Сохранение значений произвольных полей при автосохранении поста
-add_action('save_post', 'bg_bibrefs_extra_fields_update', 0);
+add_action('save_post', 'biblerefs_extra_fields_update', 0);
 
 // Сохранение значений произвольных полей при сохранении поста
-function bg_bibrefs_extra_fields_update( $post_id ){
+function biblerefs_extra_fields_update( $post_id ){
 
-	if (!isset ($_POST['bg_bibrefs_extra_fields_nonce']) ) return false;
-    if ( !wp_verify_nonce($_POST['bg_bibrefs_extra_fields_nonce'], __FILE__) ) return false;
+	if (!isset ($_POST['biblerefs_extra_fields_nonce']) ) return false;
+    if ( !wp_verify_nonce($_POST['biblerefs_extra_fields_nonce'], __FILE__) ) return false;
     if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false;
     if ( !current_user_can('edit_post', $post_id) ) return false;
 
-    if( !isset($_POST['bg_bibrefs_extra']) ) return false; 
+    if( !isset($_POST['biblerefs_extra']) ) return false; 
 
-    $_POST['bg_bibrefs_extra'] = array_map('trim', $_POST['bg_bibrefs_extra']);
-    foreach( $_POST['bg_bibrefs_extra'] as $key=>$value ){
+    $_POST['biblerefs_extra'] = array_map('trim', $_POST['biblerefs_extra']);
+    foreach( $_POST['biblerefs_extra'] as $key=>$value ){
         if( empty($value) ) {
             delete_post_meta($post_id, $key);
 			continue;
@@ -433,138 +417,138 @@ function bg_bibrefs_extra_fields_update( $post_id ){
 	
 ******************************************************************************************/
 // Задание параметров по умолчанию
-function bg_bibrefs_options_ini () {
-	add_option('bg_bibrefs_site', "azbyka");
-	// add_option('bg_bibrefs_c_lang', "c");
-	// add_option('bg_bibrefs_r_lang', "r");
-	// add_option('bg_bibrefs_g_lang');
-	// add_option('bg_bibrefs_l_lang');
-	// add_option('bg_bibrefs_i_lang');
-	// add_option('bg_bibrefs_c_font', "ucs");
-	add_option('bg_bibrefs_page', "");
-	add_option('bg_bibrefs_verses_lang', "");
-	add_option('bg_bibrefs_show_fn', "");
-	add_option('bg_bibrefs_headers', "on");
-	add_option('bg_bibrefs_interpret', "on");
-	add_option('bg_bibrefs_parallel', "");
-	add_option('bg_bibrefs_norm_refs');
-	add_option('bg_bibrefs_show_verses', "on");
+function biblerefs_options_ini () {
+	add_option('biblerefs_site', "azbyka");
+	// add_option('biblerefs_c_lang', "c");
+	// add_option('biblerefs_r_lang', "r");
+	// add_option('biblerefs_g_lang');
+	// add_option('biblerefs_l_lang');
+	// add_option('biblerefs_i_lang');
+	// add_option('biblerefs_c_font', "ucs");
+	add_option('biblerefs_page', "");
+	add_option('biblerefs_verses_lang', "");
+	add_option('biblerefs_show_fn', "");
+	add_option('biblerefs_headers', "on");
+	add_option('biblerefs_interpret', "on");
+	add_option('biblerefs_parallel', "");
+	add_option('biblerefs_norm_refs');
+	add_option('biblerefs_show_verses', "on");
 	
-	add_option('bg_bibrefs_dot', "on");
-    add_option('bg_bibrefs_romeh', "on");
-    add_option('bg_bibrefs_sepc', "on");
-	add_option('bg_bibrefs_strip_space');
-	add_option('bg_bibrefs_exceptions',"");
+	add_option('biblerefs_dot', "on");
+    add_option('biblerefs_romeh', "on");
+    add_option('biblerefs_sepc', "on");
+	add_option('biblerefs_strip_space');
+	add_option('biblerefs_exceptions',"");
 	
-	add_option('bg_bibrefs_curl', "on");
-	add_option('bg_bibrefs_fgc', "on");
-	add_option('bg_bibrefs_fopen', "on");
-	// add_option('bg_bibrefs_preload');
-	// add_option('bg_bibrefs_prereq');
-	add_option('bg_bibrefs_maxtime', "60");
-	add_option('bg_bibrefs_ajaxurl', "");
-	add_option('bg_bibrefs_content', "#content");
-	add_option('bg_bibrefs_class', "bg_bibrefs");
-	add_option('bg_bibrefs_refs_file', "");
-	add_option('bg_bibrefs_debug', "");
+	add_option('biblerefs_curl', "on");
+	add_option('biblerefs_fgc', "on");
+	add_option('biblerefs_fopen', "on");
+	// add_option('biblerefs_preload');
+	// add_option('biblerefs_prereq');
+	add_option('biblerefs_maxtime', "60");
+	add_option('biblerefs_ajaxurl', "");
+	add_option('biblerefs_content', "#content");
+	add_option('biblerefs_class', "biblerefs");
+	add_option('biblerefs_refs_file', "");
+	add_option('biblerefs_debug', "");
 	
-	add_option('bg_bibrefs_version', 0 );
-	// add_option('bg_bibrefs_folders', array('ru'));
+	add_option('biblerefs_version', 0 );
+	// add_option('biblerefs_folders', array('ru'));
 }
 
 // Очистка таблицы параметров при удалении плагина
-function bg_bibrefs_deinstall() {
-	delete_option('bg_bibrefs_site');
-	delete_option('bg_bibrefs_page');
-	delete_option('bg_bibrefs_verses_lang');
-	delete_option('bg_bibrefs_show_fn');
-	delete_option('bg_bibrefs_headers');
-	delete_option('bg_bibrefs_interpret');
-	delete_option('bg_bibrefs_parallel');
-	delete_option('bg_bibrefs_norm_refs');
-	// delete_option('bg_bibrefs_show_verses');
+function biblerefs_deinstall() {
+	delete_option('biblerefs_site');
+	delete_option('biblerefs_page');
+	delete_option('biblerefs_verses_lang');
+	delete_option('biblerefs_show_fn');
+	delete_option('biblerefs_headers');
+	delete_option('biblerefs_interpret');
+	delete_option('biblerefs_parallel');
+	delete_option('biblerefs_norm_refs');
+	// delete_option('biblerefs_show_verses');
 	
-	delete_option('bg_bibrefs_dot');
-    delete_option('bg_bibrefs_romeh');
-    delete_option('bg_bibrefs_sepc');
-    delete_option('bg_bibrefs_sepd');
-    delete_option('bg_bibrefs_seps');
-    delete_option('bg_bibrefs_separator');
-	delete_option('bg_bibrefs_strip_space');
-	delete_option('bg_bibrefs_exceptions');
+	delete_option('biblerefs_dot');
+    delete_option('biblerefs_romeh');
+    delete_option('biblerefs_sepc');
+    delete_option('biblerefs_sepd');
+    delete_option('biblerefs_seps');
+    delete_option('biblerefs_separator');
+	delete_option('biblerefs_strip_space');
+	delete_option('biblerefs_exceptions');
 	
-	delete_option('bg_bibrefs_curl');
-	delete_option('bg_bibrefs_fgc');
-	delete_option('bg_bibrefs_fopen');
-	// delete_option('bg_bibrefs_preload');
-	// delete_option('bg_bibrefs_prereq');
-	delete_option('bg_bibrefs_maxtime');
-	delete_option('bg_bibrefs_cashe');
-	delete_option('bg_bibrefs_ajaxurl');
-	delete_option('bg_bibrefs_content');
-	delete_option('bg_bibrefs_class');
-	delete_option('bg_bibrefs_refs_file');
-	delete_option('bg_bibrefs_debug');
+	delete_option('biblerefs_curl');
+	delete_option('biblerefs_fgc');
+	delete_option('biblerefs_fopen');
+	// delete_option('biblerefs_preload');
+	// delete_option('biblerefs_prereq');
+	delete_option('biblerefs_maxtime');
+	delete_option('biblerefs_cashe');
+	delete_option('biblerefs_ajaxurl');
+	delete_option('biblerefs_content');
+	delete_option('biblerefs_class');
+	delete_option('biblerefs_refs_file');
+	delete_option('biblerefs_debug');
 
-	delete_option('bg_bibrefs_submit_hidden');
-	delete_option('bg_bibrefs_options_udate');
+	delete_option('biblerefs_submit_hidden');
+	delete_option('biblerefs_options_udate');
 	
-	delete_option('bg_bibrefs_version');
-	// delete_option('bg_bibrefs_folders');
+	delete_option('biblerefs_version');
+	// delete_option('biblerefs_folders');
 }
 
-function bg_bibrefs_get_options () {
-	global $bg_bibrefs_option;
+function biblerefs_get_options () {
+	global $biblerefs_option;
 
 // Читаем существующие значения опций из базы данных
 	$opt = "";
-	// $c_lang_val = get_option( 'bg_bibrefs_c_lang' );
-   //  $r_lang_val = get_option( 'bg_bibrefs_r_lang' );
-   //  $g_lang_val = get_option( 'bg_bibrefs_g_lang' );
-   //  $l_lang_val = get_option( 'bg_bibrefs_l_lang' );
-   //  $i_lang_val = get_option( 'bg_bibrefs_i_lang' );
+	// $c_lang_val = get_option( 'biblerefs_c_lang' );
+   //  $r_lang_val = get_option( 'biblerefs_r_lang' );
+   //  $g_lang_val = get_option( 'biblerefs_g_lang' );
+   //  $l_lang_val = get_option( 'biblerefs_l_lang' );
+   //  $i_lang_val = get_option( 'biblerefs_i_lang' );
 	// $lang_val = $c_lang_val.$r_lang_val.$g_lang_val.$l_lang_val.$i_lang_val;
-	// $font_val = get_option( 'bg_bibrefs_c_font' );
+	// $font_val = get_option( 'biblerefs_c_font' );
 	// if ($lang_val) $opt = "&".$lang_val;
 	// if ($font_val && $c_lang_val) $opt = $opt."&".$font_val;
-	// $bg_bibrefs_option['azbyka'] = $opt;
+	// $biblerefs_option['azbyka'] = $opt;
 	
 // Общие параметры	отображения ссылок
-	$bg_bibrefs_option['site'] = get_option( 'bg_bibrefs_site' );
-    $bg_bibrefs_option['page'] = get_option( 'bg_bibrefs_page' );
-    $bg_bibrefs_option['target'] = get_option( 'bg_bibrefs_target' );
-    $bg_bibrefs_option['content'] = get_option( 'bg_bibrefs_content' );
-	if ($bg_bibrefs_option['content'] == "") $bg_bibrefs_option['content'] = 'body';
-    $bg_bibrefs_option['class'] = get_option( 'bg_bibrefs_class' );
-	if ($bg_bibrefs_option['class'] == "") $bg_bibrefs_option['class'] = 'bg_bibrefs';
-	// $bg_bibrefs_option['show_verses'] = get_option( 'bg_bibrefs_show_verses' );	
+	$biblerefs_option['site'] = get_option( 'biblerefs_site' );
+    $biblerefsoption['page'] = get_option( 'biblerefs_page' );
+    $biblerefs_option['target'] = get_option( 'biblerefs_target' );
+    $biblerefs_option['content'] = get_option( 'biblerefs_content' );
+	if ($biblerefs_option['content'] == "") $biblerefs_option['content'] = 'body';
+    $biblerefs_option['class'] = get_option( 'biblerefs_class' );
+	if ($biblerefs_option['class'] == "") $biblerefs_option['class'] = 'biblerefs';
+	// $biblerefs_option['show_verses'] = get_option( 'biblerefs_show_verses' );	
 
-    $bg_bibrefs_option['verses_lang'] = get_option( 'bg_bibrefs_verses_lang' );
-    $bg_bibrefs_option['show_fn'] = get_option( 'bg_bibrefs_show_fn' );
+    $biblerefs_option['verses_lang'] = get_option( 'biblerefs_verses_lang' );
+    $biblerefs_option['show_fn'] = get_option( 'biblerefs_show_fn' );
 
-    $bg_bibrefs_option['headers'] = get_option( 'bg_bibrefs_headers' );
-    $bg_bibrefs_option['interpret'] = get_option( 'bg_bibrefs_interpret' );
-    $bg_bibrefs_option['parallel'] = get_option( 'bg_bibrefs_parallel' );
+    $biblerefs_option['headers'] = get_option( 'biblerefs_headers' );
+    $biblerefs_option['interpret'] = get_option( 'biblerefs_interpret' );
+    $biblerefs_option['parallel'] = get_option( 'biblerefs_parallel' );
 
-    $bg_bibrefs_option['norm_refs'] = get_option( 'bg_bibrefs_norm_refs' );
+    $biblerefs_option['norm_refs'] = get_option( 'biblerefs_norm_refs' );
 
-	$bg_bibrefs_option['dot'] = get_option( 'bg_bibrefs_dot' );
-	$bg_bibrefs_option['romeh'] = get_option( 'bg_bibrefs_romeh' );
-	$bg_bibrefs_option['sepc'] = get_option( 'bg_bibrefs_sepc' );
-    $bg_bibrefs_option['strip_space'] = get_option( 'bg_bibrefs_strip_space' );
+	$biblerefs_option['dot'] = get_option( 'biblerefs_dot' );
+	$biblerefs_option['romeh'] = get_option( 'biblerefs_romeh' );
+	$biblerefs_option['sepc'] = get_option( 'biblerefs_sepc' );
+    $biblerefs_option['strip_space'] = get_option( 'biblerefs_strip_space' );
 
-    $bg_bibrefs_option['curl'] = get_option( 'bg_bibrefs_curl' );
-    $bg_bibrefs_option['fgc'] = get_option( 'bg_bibrefs_fgc' );
-    $bg_bibrefs_option['fopen'] = get_option( 'bg_bibrefs_fopen' );
+    $biblerefs_option['curl'] = get_option( 'biblerefs_curl' );
+    $biblerefs_option['fgc'] = get_option( 'biblerefs_fgc' );
+    $biblerefs_option['fopen'] = get_option( 'biblerefs_fopen' );
 
-   //  $bg_bibrefs_option['pload'] = get_option('bg_bibrefs_preload' );
-   //  $bg_bibrefs_option['preq'] = get_option('bg_bibrefs_prereq' );
+   //  $biblerefs_option['pload'] = get_option('biblerefs_preload' );
+   //  $biblerefs_option['preq'] = get_option('biblerefs_prereq' );
 	
-    $bg_bibrefs_option['maxtime'] = (int) get_option( 'bg_bibrefs_maxtime' );
+    $biblerefs_option['maxtime'] = (int) get_option( 'biblerefs_maxtime' );
 	
-    $bg_bibrefs_option['refs_file'] = get_option( 'bg_bibrefs_refs_file' );
+    $biblerefs_option['refs_file'] = get_option( 'biblerefs_refs_file' );
 	
-    $bg_bibrefs_option['debug'] = get_option('bg_bibrefs_debug' );
+    $biblerefs_option['debug'] = get_option('biblerefs_debug' );
 }
 
 // PLUGIN UPDATES
@@ -585,7 +569,7 @@ add_action('wp_footer', function(){
 			<div class="bible_references_popup">
 				<div class="bible_loading_overlay"></div>
 				<div class="bible_references_popup_header">
-					<span><?php echo __('Bible:', 'bg_bibrefs' ); ?></span>
+					<span><?php echo __('Bible:', 'biblerefs' ); ?></span>
 					<select id="bible_books" autocomplete="off">
 					<?php $bg_verses_lang_val = get_post_meta(get_the_ID(), 'bible_lang', 1); 
 						error_log( print_r($bg_verses_lang_val, true) );

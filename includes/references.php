@@ -12,7 +12,7 @@
 Допускается указание см.: сразу после открывающейся скобки. Варианты: см.: / см. / см: / см
 
 ********************************************************************************************************************************************/
-$bg_bibrefs_bookChapters = array(			// Количество глав в книгах Библии
+$biblerefs_bookChapters = array(			// Количество глав в книгах Библии
 	// Ветхий Завет
 	// Пятикнижие Моисея
 	'Gen'		=> 50, 						
@@ -102,24 +102,24 @@ $bg_bibrefs_bookChapters = array(			// Количество глав в книг
 	'Hebr'		=> 13, 						
 	'Apok'		=> 22);
 	
-$bg_bibrefs_all_refs=array();				// Перечень всех ссылок 
+$biblerefs_all_refs=array();				// Перечень всех ссылок 
 $sps = "(?:\s|\x{00A0}|\x{00C2}|(?:&nbsp;))";
 $dashes = "(?:[\x{2010}-\x{2015}]|(&#820[8-9];)|(&#821[0-3];))";
 /******************************************************************************************
 	Основная функция разбора текста и формирования ссылок,
-    для работы требуется bg_bibrefs_get_url() - см. ниже
+    для работы требуется biblerefs_get_url() - см. ниже
 *******************************************************************************************/
-function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
+function biblerefs_bible_proc($txt, $type='', $lang='', $prll='') {
 	global $sps, $dashes;
-	global $post, $bg_bibrefs_start_time;
-	global $bg_bibrefs_option;
-	global $bg_bibrefs_all_refs;
-	global $bg_bibrefs_lang_name, $bg_bibrefs_book_letters, $bg_bibrefs_book_length;
-	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
-	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile, $bg_bibrefs_bookChapters;
+	global $post, $biblerefs_start_time;
+	global $biblerefs_option;
+	global $biblerefs_all_refs;
+	global $biblerefs_lang_name, $biblerefs_book_letters, $biblerefs_book_length;
+	global $biblerefs_chapter, $biblerefs_ch, $biblerefs_psalm, $biblerefs_ps;
+	global $biblerefs_url, $biblerefs_bookTitle, $biblerefs_shortTitle, $biblerefs_bookFile, $biblerefs_bookChapters;
 
 /****************** ОТЛАДКА ****************************************/	
-	if ($bg_bibrefs_option['debug']) {
+	if ($biblerefs_option['debug']) {
 		$debug_file = dirname(dirname(__FILE__ ))."/debug.log";
 		if (file_exists($debug_file)) {
 			$size = filesize ($debug_file);
@@ -129,7 +129,7 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 		$start_time = microtime(true)*1000;
 		$s_time = $start_time;
 		error_log(date('d.m.Y h:i:s').": ". get_permalink()."\n", 3, $debug_file);
-		error_log("Время ожидания начала работы скрипта: ". round((microtime(true) - $bg_bibrefs_start_time), 2)." сек.\n", 3, $debug_file);
+		error_log("Время ожидания начала работы скрипта: ". round((microtime(true) - $biblerefs_start_time), 2)." сек.\n", 3, $debug_file);
 	}
 /*******************************************************************/	
 	if (!$lang) $lang = set_bible_lang();
@@ -139,7 +139,7 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 	$norefs_posts_val = get_post_meta($post->ID, 'norefs', true);
 	if ($norefs_posts_val || in_category( 'norefs' ) || has_tag( 'norefs' )) return $txt;
 	
-    if ($bg_bibrefs_option['strip_space']) $txt = bg_bibrefs_strip_space($txt);
+    if ($biblerefs_option['strip_space']) $txt = biblerefs_strip_space($txt);
 
 // Ищем все вхождения ссылок <a ...</a>, заголовков <h. ... </h.> и шорт-кодов [norefs]...[/norefs] и [bible]...[/bible]
 	preg_match_all("/<a\\s.*?<\/a>/sui", $txt, $hdr_a, PREG_OFFSET_CAPTURE);
@@ -151,18 +151,18 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 // Ищем все вхождения ссылок на Библию
 	$spss = $sps."*";
 	// Разрешить отсутствие точки после обозначения книги
-	if ($bg_bibrefs_option['dot']) $dot = "\.?";
+	if ($biblerefs_option['dot']) $dot = "\.?";
 	else $dot = "\.";
 	// Разрешить римские цифры
-	if ($bg_bibrefs_option['romeh']) {
+	if ($biblerefs_option['romeh']) {
 		$romeh = '|I{1,3}|IV|V';
 		$romeс = '|[IVXLC]+';
 	} else {
 		$romeh = "";
 		$romeс = "";
 	}
-	$letters = 'A-Za-zА-Яа-яёіїєґўЁІЇЄҐЎ'.(isset($bg_bibrefs_book_letters)?$bg_bibrefs_book_letters:'');
-	$wordsize = '{2,'.(isset($bg_bibrefs_book_length)?$bg_bibrefs_book_length:'8').'}';
+	$letters = 'A-Za-zА-Яа-яёіїєґўЁІЇЄҐЎ'.(isset($biblerefs_book_letters)?$biblerefs_book_letters:'');
+	$wordsize = '{2,'.(isset($biblerefs_book_length)?$biblerefs_book_length:'8').'}';
 
 //	$template = "((?:[1-4]".$romeh.")?".$spss."['A-Za-zА-Яа-яёіїєґўЁІЇЄҐЎ]{2,8})".$spss.$dot.$spss."((\d+".$romeс.")(".$spss."([".$sepd.$seps.":,-]|".$dashes.")".$spss."(\d+".$romeс."))*)";
 	$ch_pattern = "(\d+".$romeс.")(".$spss."([\.:,-]|".$dashes.")".$spss."\d+)";
@@ -183,7 +183,7 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 	$stime = microtime(true);
 	
 /****************** ОТЛАДКА ****************************************/	
-	if ($bg_bibrefs_option['debug']) {
+	if ($biblerefs_option['debug']) {
 		$this_time = microtime(true)*1000;
 		$time = ($this_time- $start_time);
 		error_log("    Начальная обработка (регулярные выражения): ". round($time, 2)." мсек.\n", 3, $debug_file);
@@ -191,23 +191,23 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 	}
 /*******************************************************************/	
 // Устанавливаем максимальное время работы скрипта
-	$maxtime = $bg_bibrefs_option['maxtime'];
+	$maxtime = $biblerefs_option['maxtime'];
 	if (!function_exists ('set_time_limit') || !(@set_time_limit ($maxtime))) {
 		$systemtime = ini_get('max_execution_time'); 
 		if (!$systemtime) $systemtime = 30;
 		else $systemtime = intval($systemtime);
 		$maxtime = $systemtime;
-		$pretime = microtime(true) - $bg_bibrefs_start_time;
+		$pretime = microtime(true) - $biblerefs_start_time;
 		$maxtime = $systemtime - $pretime - 2;
 /****************** ОТЛАДКА ****************************************/	
-		if ($bg_bibrefs_option['debug']) {
+		if ($biblerefs_option['debug']) {
 			error_log("    Ограничение времени работы скрипта: ". round($systemtime, 2)." сек.\n", 3, $debug_file);
 			error_log("    Осталось: ". round($maxtime, 2)." сек.\n", 3, $debug_file);
 		}
 /*******************************************************************/	
 		if ($maxtime < 2) return $txt;
 	} 
-	$exceptions = preg_split  ("/[;\n]/u", get_option('bg_bibrefs_exceptions'));
+	$exceptions = preg_split  ("/[;\n]/u", get_option('biblerefs_exceptions'));
 	for ($i = 0; $i < $cnt; $i++) {
 	
 		$mtch = trim (preg_replace("/".$sps."+/u", ' ', $matches[0][$i][0]));
@@ -248,11 +248,11 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 				$chapter = preg_replace("/".$rome[0][$r][0]."/u", rome_to_arab($rome[0][$r][0]), $chapter, 1);
 			}
 
-			$title = bg_bibrefs_getBook($title);// Обозначение книги
+			$title = biblerefs_getBook($title);// Обозначение книги
 			$ref = $matches[0][$i][0];
 			$ref = trim ( $ref, "\x20\f\t\v\n\r\xA0\xC2" );
 			if (strcasecmp($title, "") != 0) { 
-				$chapters = $bg_bibrefs_bookChapters[$title];
+				$chapters = $biblerefs_bookChapters[$title];
 				// В книгах с одной главой, допускается указывать только номер стиха
 				if ($chapters==1 && strpos($chapter, '1:')!==0 && strpos($chapter, ':')===false ) $chapter = "1:".$chapter;
  
@@ -273,33 +273,33 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 					$chapter = preg_replace("/\./u", ',', $chapter);	// Заменяем точку на запятую
 					$chapter = preg_replace("/;/u", ',', $chapter);		// Заменяем точку с запятой на запятую
 
-					if (bg_bibrefs_check_tag($hdr_a, $matches[0][$i][1]) 
-						&& (($bg_bibrefs_option['headers']=='on') || bg_bibrefs_check_tag($hdr_h, $matches[0][$i][1])) 
-						&&  bg_bibrefs_check_tag($hdr_norefs, $matches[0][$i][1])
-						&&  bg_bibrefs_check_tag($hdr_bible, $matches[0][$i][1])) {
+					if (biblerefs_check_tag($hdr_a, $matches[0][$i][1]) 
+						&& (($biblerefs_option['headers']=='on') || biblerefs_check_tag($hdr_h, $matches[0][$i][1])) 
+						&&  biblerefs_check_tag($hdr_norefs, $matches[0][$i][1])
+						&&  biblerefs_check_tag($hdr_bible, $matches[0][$i][1])) {
 						if ($type == '' || $type == 'link') {
-							$book = bg_bibrefs_getshortTitle($title);					// Короткое наименование книги
-							if ($bg_bibrefs_option['norm_refs']) {						// Преобразовать ссылку к нормализованному виду
-								$newmt = bg_bibrefs_get_url($title, $chapter, $book.' '.$chapter, $lang);
+							$book = biblerefs_getshortTitle($title);					// Короткое наименование книги
+							if ($biblerefs_option['norm_refs']) {						// Преобразовать ссылку к нормализованному виду
+								$newmt = biblerefs_get_url($title, $chapter, $book.' '.$chapter, $lang);
 							}
-							else $newmt = bg_bibrefs_get_url($title, $chapter, $ref, $lang);
-							$listmt = bg_bibrefs_get_url($title, $chapter, $book.' '.$chapter, $lang);
+							else $newmt = biblerefs_get_url($title, $chapter, $ref, $lang);
+							$listmt = biblerefs_get_url($title, $chapter, $book.' '.$chapter, $lang);
 							$double = false;
 							for ($k=0; $k < $j; $k++) {									// Проверяем не совпадают ли ссылки?
-								if ($bg_bibrefs_all_refs[$k] == $listmt) {
+								if ($biblerefs_all_refs[$k] == $listmt) {
 									$double = true;
 									break;
 								}
 							}
 							if (!$double) {												// Дубликат не найден
-								$bg_bibrefs_all_refs[$j]=$listmt;
+								$biblerefs_all_refs[$j]=$listmt;
 								$j++;
 							}
 						} else {
-							$newmt = bg_bibrefs_getQuotes($title, $chapter, $type, $lang, $prll );
+							$newmt = biblerefs_getQuotes($title, $chapter, $type, $lang, $prll );
 						}
 					} else $newmt = $matches[0][$i][0];
-				}else $newmt = "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='' title='' style='border-bottom: 2px dotted red;'><span class='bg_data_tooltip'></span>".$matches[0][$i][0]."</span>";
+				}else $newmt = "<span class='bg_data_title ".$biblerefs_option['class']."' data-title='' title='' style='border-bottom: 2px dotted red;'><span class='bg_data_tooltip'></span>".$matches[0][$i][0]."</span>";
 				$text = $text.substr($txt, $start, $matches[0][$i][1]-$start).str_replace($ref, $newmt, $matches[0][$i][0]);
 				$start = $matches[0][$i][1] + strlen($matches[0][$i][0]);
 			}
@@ -314,14 +314,14 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 
 	
 /****************** ОТЛАДКА ****************************************/	
-	if ($bg_bibrefs_option['debug']) {
+	if ($biblerefs_option['debug']) {
 		$this_time = microtime(true)*1000;
 		$time = ($this_time- $start_time);
 		error_log(date('d.m.Y h:i:s').": ". get_permalink()."\n", 3, $debug_file);
 		error_log("    Обработано: ". $i." Всего патернов: ". $cnt." за: ". round($time, 2)." мсек.\n", 3, $debug_file);
 		$time = ($this_time- $s_time);
 		error_log("    Полное время обработки: ". round($time, 2)." мсек.\n", 3, $debug_file);
-		error_log("Полное время работы скрипта: ". round((microtime(true) - $bg_bibrefs_start_time), 2)." сек.\n\n", 3, $debug_file);
+		error_log("Полное время работы скрипта: ". round((microtime(true) - $biblerefs_start_time), 2)." сек.\n\n", 3, $debug_file);
 		$start_time = $this_time;
 	}
 /*******************************************************************/	
@@ -331,7 +331,7 @@ function bg_bibrefs_bible_proc($txt, $type='', $lang='', $prll='') {
 	Проверяем находится ли указанная позиция текста внутри тега  tag1 ...tag2,
     если "да" - возвращаем false, "нет" - true 
 *******************************************************************************************/
-function bg_bibrefs_check_tag($hdr, $pos) {
+function biblerefs_check_tag($hdr, $pos) {
 
 	$chrd = count($hdr[0]);
 
@@ -344,20 +344,20 @@ function bg_bibrefs_check_tag($hdr, $pos) {
 }
 /******************************************************************************************
 	Формирование ссылки на http://azbyka.ru/biblia/
-	Используется в функции bg_bibrefs_bible_proc(),
-	для работы требуется bg_bibrefs_getTitle() - см. ниже
-	и bg_bibrefs_getBook() - см. ниже
+	Используется в функции biblerefs_bible_proc(),
+	для работы требуется biblerefs_getTitle() - см. ниже
+	и biblerefs_getBook() - см. ниже
 *******************************************************************************************/
-function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
-	global $bg_bibrefs_chapter, $bg_bibrefs_ch, $bg_bibrefs_psalm, $bg_bibrefs_ps;
+function biblerefs_get_url($book, $chapter, $link, $lang) {
+	global $biblerefs_chapter, $biblerefs_ch, $biblerefs_psalm, $biblerefs_ps;
 
 	// error_log( print_r($link, true) );
 	
 /*******************************************************************************
    Проверяем настройки
 *******************************************************************************/  
-	global $bg_bibrefs_option;
-	global $bg_bibrefs_url, $bg_bibrefs_bookTitle, $bg_bibrefs_shortTitle, $bg_bibrefs_bookFile;
+	global $biblerefs_option;
+	global $biblerefs_url, $biblerefs_bookTitle, $biblerefs_shortTitle, $biblerefs_bookFile;
 	
 
 
@@ -366,10 +366,10 @@ function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 
 
 		// псалом  или глава
-		if (isset($bg_bibrefs_ps) && $book == 'Ps')
-			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ps." ".$chapter;				// Название книги, номера псалмов и стихов	
+		if (isset($biblerefs_ps) && $book == 'Ps')
+			$the_title =  $biblerefs_bookTitle[$book]." ".$biblerefs_ps." ".$chapter;				// Название книги, номера псалмов и стихов	
 		else
-			$the_title =  $bg_bibrefs_bookTitle[$book]." ".$bg_bibrefs_ch." ".$chapter;				// Название книги, номера глав и стихов	
+			$the_title =  $biblerefs_bookTitle[$book]." ".$biblerefs_ch." ".$chapter;				// Название книги, номера глав и стихов	
 
 
 									
@@ -377,39 +377,39 @@ function bg_bibrefs_get_url($book, $chapter, $link, $lang) {
 
 
 
-		return "<span class='bg_data_title ".$bg_bibrefs_option['class']."' data-title='".$ajax_url."' title='".$the_title."'>".$fullurl."</span>"; 
+		return "<span class='bg_data_title ".$biblerefs_option['class']."' data-title='".$ajax_url."' title='".$the_title."'>".$fullurl."</span>"; 
 
 		
 	}
 	else return "";
 }
 
-function bg_bibrefs_getBook($title, $lang=null) {
+function biblerefs_getBook($title, $lang=null) {
 
-	global $bg_bibrefs_url;
+	global $biblerefs_url;
 	if ($lang) $lang = include_books($lang);
-	if (isset ($bg_bibrefs_url[$title])) return $bg_bibrefs_url[$title];// Обозначение книги Библии
+	if (isset ($biblerefs_url[$title])) return $biblerefs_url[$title];// Обозначение книги Библии
 	else return "";
 }
 
 /*******************************************************************************
    Полное наименование книги Библии
-   Используется в функции bg_bibrefs_get_url()
+   Используется в функции biblerefs_get_url()
 *******************************************************************************/  
-function bg_bibrefs_getTitle($book, $lang=null) {
-	global $bg_bibrefs_bookTitle;
+function biblerefs_getTitle($book, $lang=null) {
+	global $biblerefs_bookTitle;
 	if ($lang) $lang = include_books($lang);
-	return $bg_bibrefs_bookTitle[$book];								// Полное наименование книги Библии
+	return $biblerefs_bookTitle[$book];								// Полное наименование книги Библии
 }
 
 /*******************************************************************************
    Короткое наименование книги Библии
-   Используется в функции bg_bibrefs_bible_proc()
+   Используется в функции biblerefs_bible_proc()
 *******************************************************************************/  
-function bg_bibrefs_getshortTitle($book, $lang=null) {
-	global $bg_bibrefs_shortTitle;
+function biblerefs_getshortTitle($book, $lang=null) {
+	global $biblerefs_shortTitle;
 	if ($lang) $lang = include_books($lang);
-	return $bg_bibrefs_shortTitle[$book];								// Короткое наименование книги Библии
+	return $biblerefs_shortTitle[$book];								// Короткое наименование книги Библии
 }
 
 /*******************************************************************************
@@ -436,13 +436,13 @@ $font_rome = array("I","IV","V","IX","X","XL","L","XC","C");
 
 /*******************************************************************************
    Функция удаляет пробелы в обозначениях книг, начинающихся с цифр
-   Используется в функции bg_bibrefs_bible_proc()
+   Используется в функции biblerefs_bible_proc()
 *******************************************************************************/  
-function bg_bibrefs_strip_space($txt) {
-	global $bg_bibrefs_url, $sps;
+function biblerefs_strip_space($txt) {
+	global $biblerefs_url, $sps;
 	
 	// Формируем массив допустимых сокращений книг с номерами
-	$keys = array_keys ($bg_bibrefs_url);
+	$keys = array_keys ($biblerefs_url);
 	$dbooks = array();
 	$i=0;
 	foreach ($keys as $key) {
@@ -467,7 +467,7 @@ function bg_bibrefs_strip_space($txt) {
 
 *******************************************************************************/  
 function isWesternNotation ($ch, $chapters) {
-	global $bg_bibrefs_option;
+	global $biblerefs_option;
 	if (preg_match("/^(\d{1,3}),/m", $ch)) {						// Если после первой цифры идет запятая 
 		if (preg_match("/[;\.\-]/u", $ch)) return true;				// и при этом выражение содержит точку с запятой, точку или тире
 		// Особый случай: два числа, разделенных запятой
@@ -478,7 +478,7 @@ function isWesternNotation ($ch, $chapters) {
 				intval ($arr[1]) > $chapters)				// Вторая цифра больше кол-ва глав в книге
 				return true;
 		}
-		if ($bg_bibrefs_option['sepc']) return true;	// Опция включена - западная нотация
+		if ($biblerefs_option['sepc']) return true;	// Опция включена - западная нотация
 	}
 	return false;
 }

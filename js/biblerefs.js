@@ -64,9 +64,9 @@ jQuery(document).ready(function($){
 			cache: false,
 			async: false,									// Асинхронный запрос
 			dataType: 'text',
-			url: bg_bibrefs.ajaxurl + queryString,	// Запрос стихов Библии
+			url: biblerefs.ajaxurl + queryString,	// Запрос стихов Библии
 			data: {
-				action: 'bg_bibrefs'
+				action: 'biblerefs'
 			},
 			success: function (verses, textStatus) {		// Если что-то пришло с сервера 
 				if (verses) {

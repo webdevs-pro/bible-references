@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: bg_bibrefs\n"
+"Project-Id-Version: biblerefs\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bg-biblie-"
 "references\n"
 "POT-Creation-Date: 2019-10-24 11:32+0300\n"
@@ -20,115 +20,115 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: bg_bibrefs.php:275 bg_bibrefs.php:556
+#: biblerefs.php:275 biblerefs.php:556
 msgid "Bible References"
 msgstr "Референце за Библију"
 
-#: bg_bibrefs.php:473 bg_bibrefs.php:893 bg_bibrefs.php:930
+#: biblerefs.php:473 biblerefs.php:893 biblerefs.php:930
 msgid "Search"
 msgstr "Претрага"
 
-#: bg_bibrefs.php:538 includes/references.php:384
+#: biblerefs.php:538 includes/references.php:384
 msgid "Expand"
 msgstr "Проширити"
 
-#: bg_bibrefs.php:538 includes/references.php:384
+#: biblerefs.php:538 includes/references.php:384
 msgid "Hide"
 msgstr "Сакрити"
 
-#: bg_bibrefs.php:561 includes/settings.php:428
+#: biblerefs.php:561 includes/settings.php:428
 msgid "Language of references and tooltips"
 msgstr "Језик референци и савета "
 
-#: bg_bibrefs.php:564 bg_bibrefs.php:1000 includes/settings.php:431
+#: biblerefs.php:564 biblerefs.php:1000 includes/settings.php:431
 msgid "Default"
 msgstr "Подразумевано"
 
-#: bg_bibrefs.php:593
+#: biblerefs.php:593
 msgid "Ban to highlight references"
 msgstr "Забрана позадинског осветљења референци"
 
-#: bg_bibrefs.php:596
+#: biblerefs.php:596
 msgid "Off"
 msgstr "Искључити"
 
-#: bg_bibrefs.php:597
+#: biblerefs.php:597
 msgid "On"
 msgstr "Укључити"
 
-#: bg_bibrefs.php:635
+#: biblerefs.php:635
 msgid "Bible References Widget"
 msgstr "Виџет Референци за Библију "
 
-#: bg_bibrefs.php:636
+#: biblerefs.php:636
 msgid "Create reference to the Bible"
 msgstr "Стварање референце за Библију "
 
-#: bg_bibrefs.php:654 bg_bibrefs.php:842 bg_bibrefs.php:979
+#: biblerefs.php:654 biblerefs.php:842 biblerefs.php:979
 msgid "Title:"
 msgstr "Наслов:"
 
-#: bg_bibrefs.php:659 bg_bibrefs.php:847
+#: biblerefs.php:659 biblerefs.php:847
 msgid "Permalink to page:"
 msgstr "Сталан линк за страницу: "
 
-#: bg_bibrefs.php:666 bg_bibrefs.php:854
+#: biblerefs.php:666 biblerefs.php:854
 msgid "Default language"
 msgstr "Подразумеван језик "
 
-#: bg_bibrefs.php:672 bg_bibrefs.php:860
+#: biblerefs.php:672 biblerefs.php:860
 msgid "Save selected options (on user side only)"
 msgstr "Сачувати измењене опције (само на страни корисника)"
 
-#: bg_bibrefs.php:703
+#: biblerefs.php:703
 msgid "Book"
 msgstr "Књига"
 
-#: bg_bibrefs.php:714
+#: biblerefs.php:714
 msgid "Chapter"
 msgstr "Глава"
 
-#: bg_bibrefs.php:715
+#: biblerefs.php:715
 msgid "Chapters and verses"
 msgstr "Главе и стихови"
 
-#: bg_bibrefs.php:718 bg_bibrefs.php:897
+#: biblerefs.php:718 biblerefs.php:897
 msgid "Language"
 msgstr "Језик"
 
-#: bg_bibrefs.php:751
+#: biblerefs.php:751
 msgid "Go"
 msgstr "Прећи"
 
-#: bg_bibrefs.php:823
+#: biblerefs.php:823
 msgid "Bible Search Widget"
 msgstr "Виџет \"Претрага у Библији\""
 
-#: bg_bibrefs.php:824
+#: biblerefs.php:824
 msgid "Finds words or phrases in the Bible"
 msgstr "Налазити речи и фразе у Библији "
 
-#: bg_bibrefs.php:962
+#: biblerefs.php:962
 msgid "Bible Quote Widget"
 msgstr "Виџет цитата из Библије"
 
-#: bg_bibrefs.php:963
+#: biblerefs.php:963
 msgid "Display Random Quote or Day's Quote from the Bible"
 msgstr "Приказивати на екрану Случајан Цитат или Цитат Дана из Библије"
 
-#: bg_bibrefs.php:984
+#: biblerefs.php:984
 msgid "Type of quote:"
 msgstr "Тип цитата:"
 
-#: bg_bibrefs.php:987
+#: biblerefs.php:987
 msgid "Day's Quote"
 msgstr "Цитат Дана"
 
-#: bg_bibrefs.php:990
+#: biblerefs.php:990
 msgid "Random Quote"
 msgstr "Случајан Цитат"
 
-#: bg_bibrefs.php:995
+#: biblerefs.php:995
 msgid "Language of the Bible:"
 msgstr "Језик Библије:"
 
