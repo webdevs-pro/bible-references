@@ -141,7 +141,11 @@ p.biblerefs_close {
 	overflow-y: scroll;
 	max-height: calc(100% - 50px); 
 }
-
+.bible_references_theme_1 .biblerefs_book_title {
+	font-size: 18px;
+	text-decoration: underline;
+	margin-bottom: 5px;
+}
 .bible_references_theme_1 .bible_references_popup_verses {
 	font-size: 18px;
 	font-family: 'Times New Roman', Times, serif;

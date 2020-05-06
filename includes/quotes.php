@@ -186,7 +186,7 @@ function biblerefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 	if (!$verses) return "";
 
 
-	$verses = biblerefs_getTitle($book)."<br>".$verses;
+	$verses = '<div class="biblerefs_book_title">'.biblerefs_getTitle($book).'</div>'.$verses;
 
 	return $verses;
 }
