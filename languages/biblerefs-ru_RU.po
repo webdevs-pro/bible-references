@@ -2,22 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 20:37+0300\n"
-"PO-Revision-Date: 2020-05-06 20:37+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: Bible References\n"
+"Report-Msgid-Bugs-To: BUG-EMAIL-ADDR <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-05-06 17:48+0000\n"
+"PO-Revision-Date: 2020-05-06 17:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: Русский\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"X-Generator: Eazy Po 0.9.5.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.3; wp-5.4.1"
 
 #: bible-references.php:269 bible-references.php:351
 msgid "Bible References"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: bible-references.php:572
 msgid "Bible:"
-msgstr ""
+msgstr "Библия:"
 
 #: includes/books.php:115 includes/books.php:192
 msgid "Delete"
@@ -141,9 +141,8 @@ msgid ""
 "The plugin highlights references in both eastern and western notation. There "
 "is collision what is mean the reference containing two numbers devided by a "
 "comma (for example, Ps. 4,6). In the Western tradition, this is reference to "
-"Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and "
-"6. You can choose how to interpret such links by specifying it in the "
-"settings."
+"Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and 6."
+" You can choose how to interpret such links by specifying it in the settings."
 msgstr ""
 
 #: includes/settings.php:393
@@ -225,42 +224,20 @@ msgstr ""
 msgid "Thanks for using Biblie References"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:54
-msgid "View details"
+#. Description of the plugin
+msgid ""
+"The plugin will highlight the Bible references and display Bible verses in "
+"popup."
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:77
-#, php-format
-msgid "More information about %s"
+#. URI of the plugin
+msgid "http://wp-bible.info"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:128
-msgid "Check for updates"
+#. Author of the plugin
+msgid "Alex Ischenko"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:213
-#, php-format
-msgctxt "the plugin title"
-msgid "The %s plugin is up to date."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:215
-#, php-format
-msgctxt "the plugin title"
-msgid "A new version of the %s plugin is available."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:217
-#, php-format
-msgctxt "the plugin title"
-msgid "Could not determine if updates are available for %s."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:223
-#, php-format
-msgid "Unknown update checker status \"%s\""
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Vcs/PluginUpdateChecker.php:98
-msgid "There is no changelog available."
+#. Author URI of the plugin
+msgid "https://shofar-media.in.ua"
 msgstr ""

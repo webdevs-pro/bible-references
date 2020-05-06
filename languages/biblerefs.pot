@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BUG-EMAIL-ADDR <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: yyyy-mm-dd hh:mm+0000\n"
-"PO-Revision-Date: 2020-05-06 20:38+0200\n"
+"POT-Creation-Date: 2020-05-06 17:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Eazy Po 0.9.5.3\n"
+"X-Generator: Loco https://localise.biz/"
 
 #: bible-references.php:269 bible-references.php:351
 msgid "Bible References"
@@ -140,9 +140,8 @@ msgid ""
 "The plugin highlights references in both eastern and western notation. There "
 "is collision what is mean the reference containing two numbers devided by a "
 "comma (for example, Ps. 4,6). In the Western tradition, this is reference to "
-"Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and "
-"6. You can choose how to interpret such links by specifying it in the "
-"settings."
+"Psalm 4 verse 6, but in the east tradition it is reference to Psalms 4 and 6."
+" You can choose how to interpret such links by specifying it in the settings."
 msgstr ""
 
 #: includes/settings.php:393
@@ -224,42 +223,20 @@ msgstr ""
 msgid "Thanks for using Biblie References"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:54
-msgid "View details"
+#. Description of the plugin
+msgid ""
+"The plugin will highlight the Bible references and display Bible verses in "
+"popup."
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:77
-#, php-format
-msgid "More information about %s"
+#. URI of the plugin
+msgid "http://wp-bible.info"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:128
-msgid "Check for updates"
+#. Author of the plugin
+msgid "Alex Ischenko"
 msgstr ""
 
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:213
-#, php-format
-msgctxt "the plugin title"
-msgid "The %s plugin is up to date."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:215
-#, php-format
-msgctxt "the plugin title"
-msgid "A new version of the %s plugin is available."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:217
-#, php-format
-msgctxt "the plugin title"
-msgid "Could not determine if updates are available for %s."
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:223
-#, php-format
-msgid "Unknown update checker status \"%s\""
-msgstr ""
-
-#: includes/plugin-update-checker/Puc/v4p9/Vcs/PluginUpdateChecker.php:98
-msgid "There is no changelog available."
+#. Author URI of the plugin
+msgid "https://shofar-media.in.ua"
 msgstr ""
