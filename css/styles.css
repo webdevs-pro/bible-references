@@ -38,72 +38,80 @@ p.bg_bibrefs_close {
 }
 
 
+.bg_bibrefs {
+	white-space:nowrap;
+	cursor: pointer;
+}
+.bg_bibrefs:hover {
+	background-color: #ccc;
+}
 
 /* POPUP */
-.bible_references {
+.bible_references_theme_1.bible_references {
 	visibility: hidden;
 	opacity: 0;
 	position: fixed;
-	top: -100px;
 	left: 0;
-	bottom: -100px;
-	/* height: 100%; */
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.7);
+	top: 0;
+	width: 100vw;
+	height: 100vh;
 	z-index: 1000;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	transition: 200ms ease-in;
+	background-color: rgba(255, 255, 255, 0.8);
+	/* background-image: radial-gradient(ellipse at center center, rgba(255, 255, 255,1) 0%, rgba(255, 255, 255, 0) 100%); */
 }
-.bible_references.br_popup_visible {
+.bible_references_theme_1.bible_references.br_popup_visible {
 	transition: opacity 100ms ease-out;
 	opacity: 1;
 	visibility: visible;
 
 }
-.bible_references_popup {
+.bible_references_theme_1 .bible_references_popup {
+	max-width: calc(100vw - 20px);
 	width: 800px;
 	height: 600px;
-	background-color: #F5ECDB;
-	transform: scale(0.8);
+	max-height: 80vh;
+	background-color: #f9f9f9;
+	transform: scale(0.9);
 	opacity: 0;
 	transition: 100ms ease-in;
-	margin: 10px;
 	border-radius: 3px;
-	box-shadow: 0 30px 150px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.2);
+	border: 1px solid #ccc;
 }
-.bible_references.br_popup_visible .bible_references_popup {
+.bible_references_theme_1.bible_references.br_popup_visible .bible_references_popup {
 	transform: scale(1);
 	opacity: 1;
-	transition: 200ms ease-out;
+	transition: 100ms ease-out;
 }
 
-.bible_references_popup_header {
+.bible_references_theme_1 .bible_references_popup_header {
 	height: 50px;
 	display: flex;
 	align-items: center;
 	padding: 10px;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 0.2);
-	box-shadow: 0 0px 20px rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.1);
 }
-#bible_books {
+.bible_references_theme_1 #bible_books {
 	margin-left: 5px;
-	width: 300px;
-	max-width: 80%;
+	min-width: 180px;
+	margin-right: 50px;
 }
-.bible_references_popup_close {
+.bible_references_theme_1 .bible_references_popup_close {
 	position: absolute;
 	height: 30px;
 	width: 30px;
 	top: 10px;
 	right: 10px;
-	border: 2px solid #333;
-	background-color: #fff;
+	/* border: 2px solid #333; */
+	/* background-color: #fff; */
 	cursor: pointer;
+	z-index: 30;
 }
-.bible_references_popup_close:before {
+.bible_references_theme_1 .bible_references_popup_close:before {
 	content: '';
 	position: absolute;
 	top: 50%;
@@ -113,7 +121,7 @@ p.bg_bibrefs_close {
 	transform: translate(-50%, -50%) rotate(45deg);
 	background-color: #333;
 }
-.bible_references_popup_close:after {
+.bible_references_theme_1 .bible_references_popup_close:after {
 	content: '';
 	position: absolute;
 	top: 50%;
@@ -123,8 +131,51 @@ p.bg_bibrefs_close {
 	transform: translate(-50%, -50%) rotate(-45deg);
 	background-color: #333;
 }
-.bible_references_popup_content {
+.bible_references_theme_1 .bible_references_popup_content {
 	padding: 10px;
 	overflow-y: scroll;
 	max-height: calc(100% - 50px); 
+}
+
+.bible_references_theme_1 .bible_references_popup_verses {
+	font-size: 18px;
+	font-family: 'Times New Roman', Times, serif;
+	line-height: 1.4em;
+}
+
+
+
+
+.bible_loading_overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 20;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+.bible_loading_overlay:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 24px;
+	height: 24px;
+	z-index: 20;
+	border-radius: 50%;
+	border: 2px solid#333;
+	border-bottom-color: transparent;
+	margin-top: -12px;
+	margin-left: -12px;
+	animation: bible_loader_rotate 1s infinite linear;
+	box-shadow: 0 0 1px 0 transparent inset, 0 0 1px 0 transparent;
+}
+@keyframes bible_loader_rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }

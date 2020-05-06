@@ -6,6 +6,9 @@ jQuery(document).ready(function($){
 	// open popup
 	$('span.bg_data_title').click(function(){
 
+
+		
+
 		// get verses query string
 		verses_query_string = $(this).attr('data-title');
 		console.log(verses_query_string);
@@ -26,6 +29,8 @@ jQuery(document).ready(function($){
 	$('#bible_books').on('change', function(e){
 		console.log($(this).val());
 		var new_verses_query_string = updateQueryStringParameter(verses_query_string, 'lang', $(this).val());
+
+		// print verses
 		$('.bible_references_popup_verses').html(getBibleVerses(new_verses_query_string));
 	});
 
@@ -35,12 +40,12 @@ jQuery(document).ready(function($){
 
 
 	// close popup
-	$('.bible_references').click(function(e){
-		console.log(e.target.className);
-		if(e.target.className == 'bible_references br_popup_visible' || e.target.className == 'bible_references_popup_close') {
-			$(this).removeClass('br_popup_visible');
-			$('.bible_references_popup_verses').html('');
-		}
+	$('.bible_references,.bible_references_popup_close').click(function(e){
+		if(e.target != this) return;
+
+		$('.bible_references').removeClass('br_popup_visible');
+		$('.bible_references_popup_verses').html('');
+
 	});
 
 
@@ -51,6 +56,7 @@ jQuery(document).ready(function($){
 
 	// get bible verses (AJAX)
 	function getBibleVerses(queryString) {
+		$('.bible_loading_overlay').show();
 		var return_verses = '';
 		$.ajax({
 			type: 'GET',
@@ -71,7 +77,9 @@ jQuery(document).ready(function($){
 			}
 			
 		}); 
+		$('.bible_loading_overlay').hide();
 		return return_verses;
+		
 	}	
 
 

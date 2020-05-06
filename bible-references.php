@@ -581,8 +581,9 @@ if (is_admin()) {
 
 add_action('wp_footer', function(){
 	?>
-		<div class="bible_references">
+		<div class="bible_references bible_references_theme_1">
 			<div class="bible_references_popup">
+				<div class="bible_loading_overlay"></div>
 				<div class="bible_references_popup_header">
 					<span><?php echo __('Bible:', 'bg_bibrefs' ); ?></span>
 					<select id="bible_books" autocomplete="off">
