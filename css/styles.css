@@ -146,7 +146,7 @@ p.bg_bibrefs_close {
 
 
 
-
+/* PRELOADER */
 .bible_loading_overlay {
 	position: absolute;
 	top: 0;
@@ -155,6 +155,14 @@ p.bg_bibrefs_close {
 	height: 100%;
 	z-index: 20;
 	background-color: rgba(255, 255, 255, 0.7);
+	opacity: 0;
+	visibility: hidden; 
+	transition: opacity 200ms;
+}
+.bible_loading_overlay.bible_loading_overlay_vivsible {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 100ms;
 }
 .bible_loading_overlay:after {
 	content: '';
