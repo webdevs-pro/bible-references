@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references and display Bible verses in popup.
-   Version: 0.7.4
+   Version: 0.7.5
    Author: Alex Ischenko
    Author URI: https://shofar-media.in.ua 
 	License:     GPL2
@@ -348,7 +348,7 @@ function get_plugin_version() {
 add_action('admin_init', 'biblerefs_extra_fields', 1);
 // Создание блока
 function biblerefs_extra_fields() {
-    add_meta_box( 'biblerefs_extra_fields', __('Bible References', 'biblerefs'), 'biblerefs_extra_fields_box_func', 'post', 'normal', 'high'  );
+    add_meta_box( 'biblerefs_extra_fields', __('Bible References', 'biblerefs'), 'biblerefs_extra_fields_box_func', 'post', 'side', 'high'  );
 }
 // Добавление полей
 function biblerefs_extra_fields_box_func( $post ){
