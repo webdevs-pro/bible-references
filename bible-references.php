@@ -3,7 +3,7 @@
    Plugin Name: Bible References 
    Plugin URI: http://wp-bible.info
    Description: The plugin will highlight the Bible references and display Bible verses in popup.
-   Version: 0.7.7
+   Version: 0.7.8
    Author: Alex Ischenko
    Author URI: https://shofar-media.in.ua 
 	License:     GPL2

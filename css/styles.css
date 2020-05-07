@@ -152,7 +152,7 @@ p.biblerefs_close {
 .bible_references_theme_1 .bible_references_popup_content {
 	padding: 10px;
 	overflow-y: scroll;
-	max-height: calc(100% - 50px); 
+	height: calc(100% - 50px); 
 }
 .bible_references_theme_1 .biblerefs_book_title {
 	font-size: 18px;

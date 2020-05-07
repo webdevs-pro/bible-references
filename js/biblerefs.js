@@ -11,6 +11,7 @@ jQuery(document).ready(function($){
 
 		// open popup
 		$('.bible_references').addClass('br_popup_visible');
+		disableScroll();
 		
 		// show loading overlay
 		$('.bible_loading_overlay').addClass('bible_loading_overlay_vivsible');
@@ -18,7 +19,7 @@ jQuery(document).ready(function($){
 		// get verses with AJAX call and append
 		setTimeout(function(){
 			$('.bible_references_popup_verses').html(getBibleVerses(verses_query_string));			
-		}, 100);
+		}, 200);
 
 	});
 
@@ -56,6 +57,7 @@ jQuery(document).ready(function($){
 
 		$('.bible_references').removeClass('br_popup_visible');
 		$('.bible_references_popup_verses').html('');
+		enableScroll();
 
 	});
 
@@ -132,7 +134,15 @@ jQuery(document).ready(function($){
  
 
 
+      // DISABLE SCROLL FUNCTION
+      function disableScroll() {
+		  
+      }
+	  
+	  
+      function enableScroll() {
 
+      }
 
 
 
