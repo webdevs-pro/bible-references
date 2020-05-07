@@ -5,9 +5,13 @@ jQuery(document).ready(function($){
 	var verses_query_string = '';
 	// open popup
 	$('span.bg_data_title').click(function(){
+
+		
 		
 		// get verses query string
 		verses_query_string = $(this).attr('data-title');
+
+		$('#bible_books').val(getQueryStringParameter(verses_query_string, 'lang'));
 
 		// open popup
 		$('.bible_references').addClass('br_popup_visible');
