@@ -15,8 +15,6 @@ jQuery(document).ready(function($){
 		// show loading overlay
 		$('.bible_loading_overlay').addClass('bible_loading_overlay_vivsible');
 		
-		$('#bible_books').val(getQueryStringParameter(verses_query_string, 'lang'));	
-		
 		// get verses with AJAX call and append
 		setTimeout(function(){
 			$('.bible_references_popup_verses').html(getBibleVerses(verses_query_string));			
