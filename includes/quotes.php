@@ -132,8 +132,14 @@ function biblerefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 						$vr2 = $vr1;
 					}
 
-					// текст диапазона стихов и новая строка в конце для разделения
-					$verses = $verses.biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll).'<br>';
+					// получаем стихи (отдельно для каждого диапазона, напрриме - Пс. 1,1; 2,1-5; 3,1 - будет вызвано 3 раза для каждого диапазона: 1 - Пс.1,1  2 - Пс.2,1-5 ....)
+					// заголовок диапазона
+					$range_title = '<div class="biblerefs_book_title">'.biblerefs_getTitle($book).' '.$ch1;
+					if ($vr1 != $vr2) $range_title .= ':'.$vr1.'-'.$vr2; else $range_title .= ':'.$vr1;
+					$range_title .= '</div>';
+
+					$verses = $verses.$range_title.biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll).'<br>';
+
 					$chr = $ch1;
 					if ($sp == "") break;
 				}
@@ -173,8 +179,11 @@ function biblerefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 			}
 
 			
-			// получаем стихи (отдельно для каждого диапазона, напрриме - Пс. 1,1; 2,1-5; 3,1 - будет вызвано 3 раза для каждого диапазона: 1 - Пс.1,1  2 - Пс.2,1-5 ....)
-			$verses = $verses.biblerefs_printVerses($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll);
+			// получаем стихи (глава полностью)
+			$range_title = '<div class="biblerefs_book_title">'.biblerefs_getTitle($book).' '.$ch1.'</div>';
+
+			$verses = $verses.$range_title.biblerefs_printVerses ($json, $book, $chr, $ch1, $ch2, $vr1, $vr2, $type, $lang, $prll);
+
 			$chr = $ch2;
 		}
 		if ($sp == "") break;
@@ -185,8 +194,6 @@ function biblerefs_getQuotes($book, $chapter, $type, $lang, $prll='') {
 
 	if (!$verses) return "";
 
-
-	$verses = '<div class="biblerefs_book_title">'.biblerefs_getTitle($book).'</div>'.$verses;
 
 	return $verses;
 }
